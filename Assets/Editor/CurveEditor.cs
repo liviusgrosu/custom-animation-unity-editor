@@ -11,9 +11,13 @@ public class CurveEditor : Editor
     bool curveChangedSinceLastRepaint;
     float randomRange = 5f;
 
+    // ---- Testing Variables ----
+
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
+
+        // ---- Buttons ----
         if (GUILayout.Button("Create New Random set"))
         {
             CreateRandomSet(5);
@@ -25,8 +29,24 @@ public class CurveEditor : Editor
         }
 
 
+        // ---- Gameobjects ----
+
+        SerializedProperty curve = serializedObject.FindProperty("curve");
+        SerializedProperty startDelay = serializedObject.FindProperty("startDelay");
+        SerializedProperty endDelay = serializedObject.FindProperty("endDelay");
+        SerializedProperty startTriggerObj = serializedObject.FindProperty("startTriggerObj");
+        SerializedProperty endTriggerObj = serializedObject.FindProperty("endTriggerObj");
+        EditorGUILayout.PropertyField(curve);
+        EditorGUILayout.PropertyField(startDelay);
+        EditorGUILayout.PropertyField(endDelay);
+        EditorGUILayout.PropertyField(startTriggerObj);
+        EditorGUILayout.PropertyField(endTriggerObj);
+
+        // ---- Repaint ----
+
         if (GUI.changed)
         {
+            serializedObject.ApplyModifiedProperties();
             curveChangedSinceLastRepaint = true;
             SceneView.RepaintAll();
         }
