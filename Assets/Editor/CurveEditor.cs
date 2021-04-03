@@ -88,9 +88,13 @@ public class CurveEditor : Editor
             {
                 HandleLeftMouseDown();
             }
-            if (guiEvent.modifiers == EventModifiers.Shift)
+            else if (guiEvent.modifiers == EventModifiers.Shift)
             {
                 HandleShiftLeftMouseDown(mouseRay);
+            }
+            else if (guiEvent.modifiers == EventModifiers.Control)
+            {
+                HandleControlLeftMouseDown();
             }
         }
 
@@ -116,6 +120,14 @@ public class CurveEditor : Editor
     {
         Vector3 mousePosition = mouseRay.GetPoint(mouseRay.origin.magnitude);
         CreateNewPoint(mousePosition);
+    }
+
+    void HandleControlLeftMouseDown()
+    {
+        if(selectionInfo.mouseIsOverPoint)
+        {
+            DeletePoint();
+        }
     }
 
     void UpdateMouseOverInfo(Ray mouseRay)
@@ -191,6 +203,11 @@ public class CurveEditor : Editor
     {
         Undo.RecordObject(curveCreator, "Create shape");
         curveCreator.points.Add(position);
+    }
+
+    void DeletePoint()
+    {
+        curveCreator.points.RemoveAt(selectionInfo.pointHoverOver);
     }
 
     void CreateRandomSet(int amount)
