@@ -82,9 +82,16 @@ public class CurveEditor : Editor
         Ray mouseRay = HandleUtility.GUIPointToWorldRay(guiEvent.mousePosition);
 
         // Check if pressing mouse down and that we are not using alt/ctrl/fnc/etc...
-        if (guiEvent.type == EventType.MouseDown && guiEvent.button == 0 && guiEvent.modifiers == EventModifiers.None)
+        if (guiEvent.type == EventType.MouseDown && guiEvent.button == 0)
         {
-            HandleControlLeftMouseDown();
+            if (guiEvent.modifiers == EventModifiers.None)
+            {
+                HandleLeftMouseDown();
+            }
+            if (guiEvent.modifiers == EventModifiers.Shift)
+            {
+                HandleShiftLeftMouseDown(mouseRay);
+            }
         }
 
 
@@ -95,7 +102,7 @@ public class CurveEditor : Editor
         }
     }
     
-    void HandleControlLeftMouseDown()
+    void HandleLeftMouseDown()
     {
         if(!selectionInfo.mouseIsOverPoint)
         {
@@ -103,6 +110,12 @@ public class CurveEditor : Editor
             selectionInfo.pointSelected = -1;
         }
         selectionInfo.pointSelected = selectionInfo.pointHoverOver;
+    }
+
+    void HandleShiftLeftMouseDown(Ray mouseRay)
+    {
+        Vector3 mousePosition = mouseRay.GetPoint(mouseRay.origin.magnitude);
+        CreateNewPoint(mousePosition);
     }
 
     void UpdateMouseOverInfo(Ray mouseRay)
