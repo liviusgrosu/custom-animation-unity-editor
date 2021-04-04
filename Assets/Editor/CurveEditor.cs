@@ -91,15 +91,26 @@ public class CurveEditor : Editor
         {
             if (guiEvent.modifiers == EventModifiers.None)
             {
+                // Select point
                 HandleLeftMouseDown();
             }
             else if (guiEvent.modifiers == EventModifiers.Shift)
             {
+                // Create point
                 HandleShiftLeftMouseDown(mouseRay);
             }
             else if (guiEvent.modifiers == EventModifiers.Control)
             {
+                // Delete point
                 HandleControlLeftMouseDown();
+            }
+        }
+        if (guiEvent.type == EventType.MouseDown && Event.current.button == 1)
+        {
+            if (guiEvent.modifiers == EventModifiers.Shift)
+            {
+                // Create curve
+                HandleShiftRightMouseDown(mouseRay);
             }
         }
 
@@ -148,8 +159,10 @@ public class CurveEditor : Editor
         {
             if (selectionInfo.curveSelected != selectionInfo.curveHoverOver)
             {
-                // Switch to the hovered over curve so we can delete its points
-                selectionInfo.curveSelected = selectionInfo.curveHoverOver;
+                // Delete the entire curve
+                curveCreator.curves.RemoveAt(selectionInfo.curveHoverOver);
+                selectionInfo.curveSelected = -1;
+                return;
             }
 
             DeletePoint();
@@ -163,13 +176,20 @@ public class CurveEditor : Editor
         }
     }
 
-    void HandleAltLeftMouseDown() 
+    void HandleShiftRightMouseDown(Ray mouseRay) 
     {
-        if (selectionInfo.pointHoverOver == -1)
-        {
-            CreateNewCurve();
-        }
+        Vector3 mousePosition = mouseRay.GetPoint(mouseRay.origin.magnitude);
+
+        CreateNewCurve();
+        // New curve is the selected curve
+        selectionInfo.curveSelected = curveCreator.curves.Count() - 1;
+
+        // Create point in the selected point
+        CreateNewPoint(mousePosition);
+        // New curve is the selected curve
+        selectionInfo.pointSelected = curveCreator.curves[selectionInfo.curveSelected].points.Count() - 1;
     }
+
 
     void UpdateMouseOverInfo(Ray mouseRay)
     {
