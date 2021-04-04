@@ -16,7 +16,7 @@ public class CurveCreator : MonoBehaviour
     [HideInInspector]
     public List<UnityEvent> startTriggerObj  = new List<UnityEvent>();
     [HideInInspector]
-    public List<UnityEvent> endTriggerOb  = new List<UnityEvent>();
+    public List<UnityEvent> endTriggerObj  = new List<UnityEvent>();
     [HideInInspector]
     public List<float> startDelay = new List<float>();
     [HideInInspector]
