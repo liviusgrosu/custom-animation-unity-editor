@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEditor;
+using CurveCollection;
 
 [CustomEditor(typeof(CurveCreator))]
 public class CurveEditor : Editor
@@ -18,32 +20,35 @@ public class CurveEditor : Editor
         base.OnInspectorGUI();
 
         // ---- Buttons ----
-        if (GUILayout.Button("Create New Random set"))
-        {
-            CreateRandomSet(5);
-        }
+        // if (GUILayout.Button("Create New Random set"))
+        // {
+        //     CreateRandomSet(5);
+        // }
 
-        if (GUILayout.Button("Create 1 point"))
+        // if (GUILayout.Button("Create New Curve"))
+        // {
+        //     CreateRandomSet(1);
+        // }
+
+        if (GUILayout.Button("Clear Data"))
         {
-            CreateRandomSet(1);
+            ClearAll();
         }
 
 
         // ---- Gameobjects ----
-
-        SerializedProperty curve = serializedObject.FindProperty("curve");
-        SerializedProperty startDelay = serializedObject.FindProperty("startDelay");
-        SerializedProperty endDelay = serializedObject.FindProperty("endDelay");
-        SerializedProperty startTriggerObj = serializedObject.FindProperty("startTriggerObj");
-        SerializedProperty endTriggerObj = serializedObject.FindProperty("endTriggerObj");
-        EditorGUILayout.PropertyField(curve);
-        EditorGUILayout.PropertyField(startDelay);
-        EditorGUILayout.PropertyField(endDelay);
-        EditorGUILayout.PropertyField(startTriggerObj);
-        EditorGUILayout.PropertyField(endTriggerObj);
+        // SerializedProperty curve = serializedObject.FindProperty("curve");
+        // SerializedProperty startDelay = serializedObject.FindProperty("startDelay");
+        // SerializedProperty endDelay = serializedObject.FindProperty("endDelay");
+        // SerializedProperty startTriggerObj = serializedObject.FindProperty("startTriggerObj");
+        // SerializedProperty endTriggerObj = serializedObject.FindProperty("endTriggerObj");
+        // EditorGUILayout.PropertyField(curve);
+        // EditorGUILayout.PropertyField(startDelay);
+        // EditorGUILayout.PropertyField(endDelay);
+        // EditorGUILayout.PropertyField(startTriggerObj);
+        // EditorGUILayout.PropertyField(endTriggerObj);
 
         // ---- Repaint ----
-
         if (GUI.changed)
         {
             serializedObject.ApplyModifiedProperties();
@@ -82,7 +87,7 @@ public class CurveEditor : Editor
         Ray mouseRay = HandleUtility.GUIPointToWorldRay(guiEvent.mousePosition);
 
         // Check if pressing mouse down and that we are not using alt/ctrl/fnc/etc...
-        if (guiEvent.type == EventType.MouseDown && guiEvent.button == 0)
+        if (guiEvent.type == EventType.MouseDown && Event.current.button == 0)
         {
             if (guiEvent.modifiers == EventModifiers.None)
             {
@@ -98,35 +103,59 @@ public class CurveEditor : Editor
             }
         }
 
-
-        if (!selectionInfo.pointIsSelected)
-        {
-            // Don't select any other point when dragging
-            UpdateMouseOverInfo(mouseRay);
-        }
+        // Check if mouse is hovering over a point
+        UpdateMouseOverInfo(mouseRay);
     }
     
     void HandleLeftMouseDown()
     {
-        if(!selectionInfo.mouseIsOverPoint)
+        // Select the point and curve that is hovered over
+
+        if(selectionInfo.pointHoverOver == -1)
         {
             // Click away from selected point if applicable
-            selectionInfo.pointSelected = -1;
+            ResetVariables();
         }
+
+        // Select the point and curve that was hovered over
         selectionInfo.pointSelected = selectionInfo.pointHoverOver;
+        selectionInfo.curveSelected = selectionInfo.curveHoverOver;
     }
 
     void HandleShiftLeftMouseDown(Ray mouseRay)
     {
+        // Create new point in the selected curve
+
         Vector3 mousePosition = mouseRay.GetPoint(mouseRay.origin.magnitude);
+
+        // If no curve is present, create one before creating a point
+        if(selectionInfo.curveSelected == -1)
+        {
+            CreateNewCurve();
+            // New curve is the selected curve
+            selectionInfo.curveSelected = curveCreator.curves.Count() - 1;
+        }
+
+        // Create point in the selected point
         CreateNewPoint(mousePosition);
+        // New curve is the selected curve
+        selectionInfo.pointSelected = curveCreator.curves[selectionInfo.curveSelected].points.Count() - 1;
     }
 
     void HandleControlLeftMouseDown()
     {
-        if(selectionInfo.mouseIsOverPoint)
+        if(selectionInfo.pointHoverOver != -1)
         {
             DeletePoint();
+            selectionInfo.pointSelected = -1;
+        }
+    }
+
+    void HandleAltLeftMouseDown() 
+    {
+        if (selectionInfo.pointHoverOver == -1)
+        {
+            CreateNewCurve();
         }
     }
 
@@ -134,54 +163,102 @@ public class CurveEditor : Editor
     {
         // Get direction of the mouse
         selectionInfo.pointHoverOver = -1;
+        selectionInfo.curveHoverOver = -1;
         Vector3 mouseDir = mouseRay.direction.normalized;
 
-        for (int pointIdx = 0; pointIdx < curveCreator.points.Count; pointIdx++)
+        for (int curveIdx = 0; curveIdx < curveCreator.curves.Count; curveIdx++)
         {
-            float x = curveCreator.points[pointIdx].x - mouseRay.origin.x;
-            float y = curveCreator.points[pointIdx].y - mouseRay.origin.y;
-            float z = curveCreator.points[pointIdx].z - mouseRay.origin.z;
-
-            float t = (x * mouseDir.x + y * mouseDir.y + z * mouseDir.z) / 
-                        (mouseDir.x * mouseDir.x + mouseDir.y * mouseDir.y + mouseDir.z * mouseDir.z);
-
-            float D1 = (mouseDir.x * mouseDir.x + mouseDir.y * mouseDir.y + mouseDir.z * mouseDir.z) * (t * t);
-            float D2 = (x * mouseDir.x + y * mouseDir.y + z * mouseDir.z) * 2 * t;
-            float D3 = (x * x + y * y + z * z);
-
-            float D = D1 - D2 + D3;
             
-            if (D < 1)
+            for (int pointIdx = 0; pointIdx < curveCreator.curves[curveIdx].points.Count; pointIdx++)
             {
-                selectionInfo.pointHoverOver = pointIdx;
+                Vector3 point = curveCreator.curves[curveIdx].points[pointIdx];
+
+                float x = point.x - mouseRay.origin.x;
+                float y = point.y - mouseRay.origin.y;
+                float z = point.z - mouseRay.origin.z;
+
+                float t = (x * mouseDir.x + y * mouseDir.y + z * mouseDir.z) / 
+                            (mouseDir.x * mouseDir.x + mouseDir.y * mouseDir.y + mouseDir.z * mouseDir.z);
+
+                float D1 = (mouseDir.x * mouseDir.x + mouseDir.y * mouseDir.y + mouseDir.z * mouseDir.z) * (t * t);
+                float D2 = (x * mouseDir.x + y * mouseDir.y + z * mouseDir.z) * 2 * t;
+                float D3 = (x * x + y * y + z * z);
+
+                float D = D1 - D2 + D3;
+                
+                if (D < 1)
+                {
+                    selectionInfo.pointHoverOver = pointIdx;
+                    selectionInfo.curveHoverOver = curveIdx;
+                }
             }
         }
-        selectionInfo.mouseIsOverPoint = selectionInfo.pointHoverOver != -1;
     }
 
     void Draw()
     {
         EditorGUI.BeginChangeCheck();
-        for (int pointIdx = 0; pointIdx < curveCreator.points.Count; pointIdx++)
+
+        for (int curveIdx = 0; curveIdx < curveCreator.curves.Count; curveIdx++)
         {
-
-            Handles.color = selectionInfo.pointHoverOver == pointIdx ? Color.red : Color.white;
-            
-            if (selectionInfo.pointSelected == pointIdx)
+            for (int pointIdx = 0; pointIdx < curveCreator.curves[curveIdx].points.Count; pointIdx++)
             {
-                Handles.color = Color.green;
-                Vector3 newPointPosition = Handles.PositionHandle(curveCreator.points[pointIdx], Quaternion.identity);
-                if (EditorGUI.EndChangeCheck())
+                bool hoverCurve = selectionInfo.curveHoverOver == curveIdx;
+                bool hoverPoint = selectionInfo.pointHoverOver == pointIdx;
+
+                bool selectedCurve = selectionInfo.curveSelected == curveIdx;
+                bool selectedPoint = selectionInfo.pointSelected == pointIdx;
+
+                Vector3 currentPointPos = curveCreator.curves[curveIdx].points[pointIdx];
+                int pointsCount = curveCreator.curves[curveIdx].points.Count;
+
+                if (selectedCurve)
                 {
-                    curveCreator.points[pointIdx] = newPointPosition;
-                }
-            }
+                    Handles.color = hoverPoint ? Color.green : Color.black;
 
-            Handles.SphereHandleCap(0, curveCreator.points[pointIdx], Quaternion.LookRotation(Vector3.up), 0.5f, EventType.Repaint);
-            Handles.color = Color.black;
-            if (pointIdx < curveCreator.points.Count - 1)
-            {
-                Handles.DrawDottedLine(curveCreator.points[pointIdx], curveCreator.points[pointIdx + 1], 4);
+                    if (selectedPoint)
+                    {
+                        Handles.color = Color.red;
+                    }
+
+                    Handles.SphereHandleCap(0, currentPointPos, Quaternion.LookRotation(Vector3.up), 0.5f, EventType.Repaint);
+                    Handles.color = Color.black;
+                    if (pointIdx < pointsCount - 1)
+                    {
+                        Handles.DrawDottedLine(currentPointPos, curveCreator.curves[curveIdx].points[pointIdx + 1], 4);
+                    }
+                }
+                else
+                {
+                    Handles.color = hoverCurve ? Color.green : Color.gray;
+                    Handles.SphereHandleCap(0, currentPointPos, Quaternion.LookRotation(Vector3.up), 0.5f, EventType.Repaint);
+                    if (pointIdx < pointsCount - 1)
+                    {
+                        Handles.DrawDottedLine(currentPointPos, curveCreator.curves[curveIdx].points[pointIdx + 1], 4);
+                    }
+                }
+                
+
+                // // ----- Points -----
+                // Handles.color = hoverCurve && hoverPoint ? Color.red : Color.white;
+                
+                // // If the curve and point is selected
+                // if (selectionInfo.curveSelected == curveIdx && selectionInfo.pointSelected == pointIdx)
+                // {
+                //     Handles.color = Color.green;
+                //     Vector3 newPointPosition = Handles.PositionHandle(curveCreator.points[pointIdx], Quaternion.identity);
+                //     if (EditorGUI.EndChangeCheck())
+                //     {
+                //         curveCreator.points[pointIdx] = newPointPosition;
+                //     }
+                // }
+
+                // Handles.SphereHandleCap(0, curveCreator.points[pointIdx], Quaternion.LookRotation(Vector3.up), 0.5f, EventType.Repaint);
+                // Handles.color = Color.black;
+                // if (pointIdx < curveCreator.points.Count - 1)
+                // {
+                //     Handles.DrawDottedLine(curveCreator.points[pointIdx], curveCreator.points[pointIdx + 1], 4);
+                // }
             }
         }
         curveChangedSinceLastRepaint = false;
@@ -199,43 +276,61 @@ public class CurveEditor : Editor
         Tools.hidden = false;
     }
 
+    void CreateNewCurve()
+    {
+        // Create new curve
+        curveCreator.curves.Add(new Curve());
+    }
+
     void CreateNewPoint(Vector3 position)
     {
+        // Check which curve it goes into 
         Undo.RecordObject(curveCreator, "Create shape");
-        curveCreator.points.Add(position);
+        // Add the point to the active curve
+        curveCreator.curves[selectionInfo.curveSelected].points.Add(position);
     }
 
     void DeletePoint()
     {
-        curveCreator.points.RemoveAt(selectionInfo.pointHoverOver);
+        curveCreator.curves[selectionInfo.curveSelected].points.RemoveAt(selectionInfo.pointHoverOver);
     }
 
-    void CreateRandomSet(int amount)
+    void ClearAll()
     {
-        curveCreator.points.Clear();
-        for (int pointIdx = 0; pointIdx < amount; pointIdx++)
-        {
-            Vector3 newPos = new Vector3(
-                UnityEngine.Random.Range(-randomRange, randomRange),
-                UnityEngine.Random.Range(-randomRange, randomRange),
-                UnityEngine.Random.Range(-randomRange, randomRange)
-            );
-            curveCreator.points.Add(newPos);
-        }
+        curveCreator.curves.Clear();
     }
+
+    // void CreateRandomSet(int amount)
+    // {
+    //     curveCreator.points.Clear();
+    //     for (int pointIdx = 0; pointIdx < amount; pointIdx++)
+    //     {
+    //         Vector3 newPos = new Vector3(
+    //             UnityEngine.Random.Range(-randomRange, randomRange),
+    //             UnityEngine.Random.Range(-randomRange, randomRange),
+    //             UnityEngine.Random.Range(-randomRange, randomRange)
+    //         );
+    //         curveCreator.points.Add(newPos);
+    //     }
+    // }
 
     void ResetVariables()
     {
         selectionInfo.pointHoverOver = -1;
         selectionInfo.pointSelected = -1;
-        selectionInfo.pointIsSelected = false;
+
+        selectionInfo.curveHoverOver = -1;
+        selectionInfo.curveSelected = -1;
     }
 
     public class SelectionInfo
     {
+        // Points
         public int pointHoverOver = -1;
         public int pointSelected = -1;
-        public bool mouseIsOverPoint;
-        public bool pointIsSelected;
+    
+        // Curve
+        public int curveHoverOver = -1;
+        public int curveSelected = -1;
     }
 }
