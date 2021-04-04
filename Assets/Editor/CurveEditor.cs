@@ -180,8 +180,7 @@ public class CurveEditor : Editor
             if (selectionInfo.curveSelected != selectionInfo.curveHoverOver)
             {
                 // Delete the entire curve
-                curveCreator.curves.RemoveAt(selectionInfo.curveHoverOver);
-                selectionInfo.curveSelected = -1;
+                DeleteCurve();
                 return;
             }
 
@@ -320,12 +319,29 @@ public class CurveEditor : Editor
         curveCreator.railName.Add("");
         curveCreator.animationCurve.Add(new AnimationCurve());
         curveCreator.showAnimationRail.Add(false);
-        
+
         curveCreator.startDelay.Add(0f);
         curveCreator.startTriggerObj.Add(new UnityEvent());
 
         curveCreator.endDelay.Add(0f);
         curveCreator.endTriggerObj.Add(new UnityEvent());
+    }
+
+    void DeleteCurve()
+    {
+        curveCreator.curves.RemoveAt(selectionInfo.curveHoverOver);
+
+        curveCreator.railName.RemoveAt(selectionInfo.curveHoverOver);
+        curveCreator.animationCurve.RemoveAt(selectionInfo.curveHoverOver);
+        curveCreator.showAnimationRail.RemoveAt(selectionInfo.curveHoverOver);
+
+        curveCreator.startDelay.RemoveAt(selectionInfo.curveHoverOver);
+        curveCreator.startTriggerObj.RemoveAt(selectionInfo.curveHoverOver);
+
+        curveCreator.endDelay.RemoveAt(selectionInfo.curveHoverOver);
+        curveCreator.endTriggerObj.RemoveAt(selectionInfo.curveHoverOver);
+
+        selectionInfo.curveSelected = -1;
     }
 
     void CreateNewPoint(Vector3 position)
