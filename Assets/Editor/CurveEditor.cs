@@ -272,6 +272,11 @@ public class CurveEditor : Editor
                     if (selectedPoint)
                     {
                         Handles.color = Color.red;
+                        Vector3 newPointPosition = Handles.PositionHandle(curveCreator.curves[curveIdx].points[pointIdx], Quaternion.identity);
+                        if (EditorGUI.EndChangeCheck())
+                        {
+                            curveCreator.curves[curveIdx].points[pointIdx] = newPointPosition;
+                        }
                     }
 
                     Handles.SphereHandleCap(0, currentPointPos, Quaternion.LookRotation(Vector3.up), 0.5f, EventType.Repaint);
@@ -290,28 +295,6 @@ public class CurveEditor : Editor
                         Handles.DrawDottedLine(currentPointPos, curveCreator.curves[curveIdx].points[pointIdx + 1], 4);
                     }
                 }
-                
-
-                // // ----- Points -----
-                // Handles.color = hoverCurve && hoverPoint ? Color.red : Color.white;
-                
-                // // If the curve and point is selected
-                // if (selectionInfo.curveSelected == curveIdx && selectionInfo.pointSelected == pointIdx)
-                // {
-                //     Handles.color = Color.green;
-                //     Vector3 newPointPosition = Handles.PositionHandle(curveCreator.points[pointIdx], Quaternion.identity);
-                //     if (EditorGUI.EndChangeCheck())
-                //     {
-                //         curveCreator.points[pointIdx] = newPointPosition;
-                //     }
-                // }
-
-                // Handles.SphereHandleCap(0, curveCreator.points[pointIdx], Quaternion.LookRotation(Vector3.up), 0.5f, EventType.Repaint);
-                // Handles.color = Color.black;
-                // if (pointIdx < curveCreator.points.Count - 1)
-                // {
-                //     Handles.DrawDottedLine(curveCreator.points[pointIdx], curveCreator.points[pointIdx + 1], 4);
-                // }
             }
         }
         curveChangedSinceLastRepaint = false;
@@ -343,10 +326,6 @@ public class CurveEditor : Editor
 
         curveCreator.endDelay.Add(0f);
         curveCreator.endTriggerObj.Add(new UnityEvent());
-        // curveCreator.startTriggerObj.Add(new UnityEvent());
-        // curveCreator.endTriggerObj.Add(new UnityEvent());
-        // curveCreator.startDelay.Add(0);
-        // curveCreator.endDelay.Add(0);
     }
 
     void CreateNewPoint(Vector3 position)
