@@ -10,9 +10,19 @@ public class CurveCreator : MonoBehaviour
     [HideInInspector]
     public List<Curve> curves = new List<Curve>();
     [HideInInspector]
-    public AnimationCurve curve;
+    public List<string> railName = new List<string>();
     [HideInInspector]
-    public UnityEvent startTriggerObj, endTriggerObj;
+    public List<AnimationCurve> animationCurve = new List<AnimationCurve>();
     [HideInInspector]
-    public float startDelay, endDelay;
+    public List<UnityEvent> startTriggerObj  = new List<UnityEvent>();
+    [HideInInspector]
+    public List<UnityEvent> endTriggerOb  = new List<UnityEvent>();
+    [HideInInspector]
+    public List<float> startDelay = new List<float>();
+    [HideInInspector]
+    public List<float> endDelay = new List<float>();
+
+    //-------
+    [HideInInspector]
+    public List<bool> showAnimationRail = new List<bool>();
 }

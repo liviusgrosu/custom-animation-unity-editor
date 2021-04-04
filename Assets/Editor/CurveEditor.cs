@@ -35,6 +35,26 @@ public class CurveEditor : Editor
             ClearAll();
         }
 
+        for (int curveIdx = 0; curveIdx < curveCreator.curves.Count; curveIdx++)
+        {
+            string name = $"Rail - {curveIdx}";
+            
+            if (!string.IsNullOrEmpty(curveCreator.railName[curveIdx]))
+            {
+                name = curveCreator.railName[curveIdx];
+            }  
+            
+            curveCreator.showAnimationRail[curveIdx] = EditorGUILayout.Foldout(curveCreator.showAnimationRail[curveIdx], name);
+            if (curveCreator.showAnimationRail[curveIdx])
+            {
+                SerializedProperty railName = serializedObject.FindProperty("railName");
+                SerializedProperty animationCurve = serializedObject.FindProperty("animationCurve");
+
+                EditorGUILayout.PropertyField(railName.GetArrayElementAtIndex(curveIdx), new GUIContent("Name"), false);
+                EditorGUILayout.PropertyField(animationCurve.GetArrayElementAtIndex(curveIdx), new GUIContent("Curve"), false);
+            }
+        }
+
 
         // ---- Gameobjects ----
         // SerializedProperty curve = serializedObject.FindProperty("curve");
@@ -313,6 +333,14 @@ public class CurveEditor : Editor
     {
         // Create new curve
         curveCreator.curves.Add(new Curve());
+
+        curveCreator.railName.Add("");
+        curveCreator.animationCurve.Add(new AnimationCurve());
+        curveCreator.showAnimationRail.Add(false);
+        // curveCreator.startTriggerObj.Add(new UnityEvent());
+        // curveCreator.endTriggerObj.Add(new UnityEvent());
+        // curveCreator.startDelay.Add(0);
+        // curveCreator.endDelay.Add(0);
     }
 
     void CreateNewPoint(Vector3 position)
