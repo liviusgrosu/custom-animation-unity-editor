@@ -146,7 +146,19 @@ public class CurveEditor : Editor
     {
         if(selectionInfo.pointHoverOver != -1)
         {
+            if (selectionInfo.curveSelected != selectionInfo.curveHoverOver)
+            {
+                // Switch to the hovered over curve so we can delete its points
+                selectionInfo.curveSelected = selectionInfo.curveHoverOver;
+            }
+
             DeletePoint();
+            if (!curveCreator.curves[selectionInfo.curveSelected].points.Any())
+            {
+                // Remove the curve if there are no points
+                curveCreator.curves.RemoveAt(selectionInfo.curveSelected);
+                selectionInfo.curveSelected = -1;
+            }
             selectionInfo.pointSelected = -1;
         }
     }
@@ -214,7 +226,8 @@ public class CurveEditor : Editor
 
                 if (selectedCurve)
                 {
-                    Handles.color = hoverPoint ? Color.green : Color.black;
+                    // Ensures that the point being hovered over is contained within the curve
+                    Handles.color = hoverPoint && hoverCurve == selectedCurve ? Color.magenta : Color.black;
 
                     if (selectedPoint)
                     {
