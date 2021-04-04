@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.Events;
 using CurveCollection;
 
 [CustomEditor(typeof(CurveCreator))]
@@ -50,25 +51,24 @@ public class CurveEditor : Editor
                 SerializedProperty railName = serializedObject.FindProperty("railName");
                 SerializedProperty animationCurve = serializedObject.FindProperty("animationCurve");
 
+                SerializedProperty startTriggerObj = serializedObject.FindProperty("startTriggerObj");
+                SerializedProperty startDelay = serializedObject.FindProperty("startDelay");
+
+                SerializedProperty endTriggerObj = serializedObject.FindProperty("endTriggerObj");
+                SerializedProperty endDelay = serializedObject.FindProperty("endDelay");
+
                 EditorGUILayout.PropertyField(railName.GetArrayElementAtIndex(curveIdx), new GUIContent("Name"), false);
                 EditorGUILayout.PropertyField(animationCurve.GetArrayElementAtIndex(curveIdx), new GUIContent("Curve"), false);
+
+                EditorGUILayout.PropertyField(startTriggerObj.GetArrayElementAtIndex(curveIdx), new GUIContent("Start Trigger"), false);
+                EditorGUILayout.PropertyField(startDelay.GetArrayElementAtIndex(curveIdx), new GUIContent("Start Delay"), false);
+
+                EditorGUILayout.PropertyField(endTriggerObj.GetArrayElementAtIndex(curveIdx), new GUIContent("End Trigger"), false);
+                EditorGUILayout.PropertyField(endDelay.GetArrayElementAtIndex(curveIdx), new GUIContent("End Delay"), false);
+
             }
         }
 
-
-        // ---- Gameobjects ----
-        // SerializedProperty curve = serializedObject.FindProperty("curve");
-        // SerializedProperty startDelay = serializedObject.FindProperty("startDelay");
-        // SerializedProperty endDelay = serializedObject.FindProperty("endDelay");
-        // SerializedProperty startTriggerObj = serializedObject.FindProperty("startTriggerObj");
-        // SerializedProperty endTriggerObj = serializedObject.FindProperty("endTriggerObj");
-        // EditorGUILayout.PropertyField(curve);
-        // EditorGUILayout.PropertyField(startDelay);
-        // EditorGUILayout.PropertyField(endDelay);
-        // EditorGUILayout.PropertyField(startTriggerObj);
-        // EditorGUILayout.PropertyField(endTriggerObj);
-
-        // ---- Repaint ----
         if (GUI.changed)
         {
             serializedObject.ApplyModifiedProperties();
@@ -337,6 +337,12 @@ public class CurveEditor : Editor
         curveCreator.railName.Add("");
         curveCreator.animationCurve.Add(new AnimationCurve());
         curveCreator.showAnimationRail.Add(false);
+        
+        curveCreator.startDelay.Add(0f);
+        curveCreator.startTriggerObj.Add(new UnityEvent());
+
+        curveCreator.endDelay.Add(0f);
+        curveCreator.endTriggerObj.Add(new UnityEvent());
         // curveCreator.startTriggerObj.Add(new UnityEvent());
         // curveCreator.endTriggerObj.Add(new UnityEvent());
         // curveCreator.startDelay.Add(0);
