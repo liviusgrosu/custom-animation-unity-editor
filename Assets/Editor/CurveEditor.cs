@@ -20,17 +20,6 @@ public class CurveEditor : Editor
     {
         base.OnInspectorGUI();
 
-        // ---- Buttons ----
-        // if (GUILayout.Button("Create New Random set"))
-        // {
-        //     CreateRandomSet(5);
-        // }
-
-        // if (GUILayout.Button("Create New Curve"))
-        // {
-        //     CreateRandomSet(1);
-        // }
-
         if (GUILayout.Button("Clear Data"))
         {
             ClearAll();
@@ -40,31 +29,35 @@ public class CurveEditor : Editor
         {
             string name = $"Rail - {curveIdx}";
             
-            if (!string.IsNullOrEmpty(curveCreator.railName[curveIdx]))
+            if (!string.IsNullOrEmpty(curveCreator.railNames[curveIdx]))
             {
-                name = curveCreator.railName[curveIdx];
+                // Default name if it doesn't exist
+                name = curveCreator.railNames[curveIdx];
             }  
             
+            // Foldout for each animation rail
             curveCreator.showAnimationRail[curveIdx] = EditorGUILayout.Foldout(curveCreator.showAnimationRail[curveIdx], name);
             if (curveCreator.showAnimationRail[curveIdx])
             {
-                SerializedProperty railName = serializedObject.FindProperty("railName");
-                SerializedProperty animationCurve = serializedObject.FindProperty("animationCurve");
+                SerializedProperty railNames = serializedObject.FindProperty("railNames");
+                SerializedProperty animationCurves = serializedObject.FindProperty("animationCurves");
 
-                SerializedProperty startTriggerObj = serializedObject.FindProperty("startTriggerObj");
-                SerializedProperty startDelay = serializedObject.FindProperty("startDelay");
+                SerializedProperty endDelays = serializedObject.FindProperty("endDelays");
+                SerializedProperty startDelays = serializedObject.FindProperty("startDelays");
 
-                SerializedProperty endTriggerObj = serializedObject.FindProperty("endTriggerObj");
-                SerializedProperty endDelay = serializedObject.FindProperty("endDelay");
+                SerializedProperty startTriggerObjs = serializedObject.FindProperty("startTriggerObjs");
+                SerializedProperty endTriggerObjs = serializedObject.FindProperty("endTriggerObjs");
 
-                EditorGUILayout.PropertyField(railName.GetArrayElementAtIndex(curveIdx), new GUIContent("Name"), false);
-                EditorGUILayout.PropertyField(animationCurve.GetArrayElementAtIndex(curveIdx), new GUIContent("Curve"), false);
 
-                EditorGUILayout.PropertyField(startTriggerObj.GetArrayElementAtIndex(curveIdx), new GUIContent("Start Trigger"), false);
-                EditorGUILayout.PropertyField(startDelay.GetArrayElementAtIndex(curveIdx), new GUIContent("Start Delay"), false);
+                EditorGUILayout.PropertyField(railNames.GetArrayElementAtIndex(curveIdx), new GUIContent("Name"), false);
+                EditorGUILayout.PropertyField(animationCurves.GetArrayElementAtIndex(curveIdx), new GUIContent("Curve"), false);
 
-                EditorGUILayout.PropertyField(endTriggerObj.GetArrayElementAtIndex(curveIdx), new GUIContent("End Trigger"), false);
-                EditorGUILayout.PropertyField(endDelay.GetArrayElementAtIndex(curveIdx), new GUIContent("End Delay"), false);
+                EditorGUILayout.PropertyField(startDelays.GetArrayElementAtIndex(curveIdx), new GUIContent("Start Delay"), false);
+                EditorGUILayout.PropertyField(endDelays.GetArrayElementAtIndex(curveIdx), new GUIContent("End Delay"), false);
+
+                EditorGUILayout.PropertyField(startTriggerObjs.GetArrayElementAtIndex(curveIdx), new GUIContent("Start Trigger"), false);
+                EditorGUILayout.PropertyField(endTriggerObjs.GetArrayElementAtIndex(curveIdx), new GUIContent("End Trigger"), false);
+                
 
             }
         }
@@ -316,30 +309,30 @@ public class CurveEditor : Editor
         // Create new curve
         curveCreator.curves.Add(new Curve());
 
-        curveCreator.railName.Add("");
-        curveCreator.animationCurve.Add(new AnimationCurve());
+        curveCreator.railNames.Add("");
+        curveCreator.animationCurves.Add(new AnimationCurve());
         curveCreator.showAnimationRail.Add(false);
 
-        curveCreator.startDelay.Add(0f);
-        curveCreator.startTriggerObj.Add(new UnityEvent());
+        curveCreator.startDelays.Add(0f);
+        curveCreator.startTriggerObjs.Add(new UnityEvent());
 
-        curveCreator.endDelay.Add(0f);
-        curveCreator.endTriggerObj.Add(new UnityEvent());
+        curveCreator.endDelays.Add(0f);
+        curveCreator.endTriggerObjs.Add(new UnityEvent());
     }
 
     void DeleteCurve()
     {
         curveCreator.curves.RemoveAt(selectionInfo.curveHoverOver);
 
-        curveCreator.railName.RemoveAt(selectionInfo.curveHoverOver);
-        curveCreator.animationCurve.RemoveAt(selectionInfo.curveHoverOver);
+        curveCreator.railNames.RemoveAt(selectionInfo.curveHoverOver);
+        curveCreator.animationCurves.RemoveAt(selectionInfo.curveHoverOver);
         curveCreator.showAnimationRail.RemoveAt(selectionInfo.curveHoverOver);
 
-        curveCreator.startDelay.RemoveAt(selectionInfo.curveHoverOver);
-        curveCreator.startTriggerObj.RemoveAt(selectionInfo.curveHoverOver);
+        curveCreator.startDelays.RemoveAt(selectionInfo.curveHoverOver);
+        curveCreator.startTriggerObjs.RemoveAt(selectionInfo.curveHoverOver);
 
-        curveCreator.endDelay.RemoveAt(selectionInfo.curveHoverOver);
-        curveCreator.endTriggerObj.RemoveAt(selectionInfo.curveHoverOver);
+        curveCreator.endDelays.RemoveAt(selectionInfo.curveHoverOver);
+        curveCreator.endTriggerObjs.RemoveAt(selectionInfo.curveHoverOver);
 
         selectionInfo.curveSelected = -1;
     }
@@ -361,20 +354,6 @@ public class CurveEditor : Editor
     {
         curveCreator.curves.Clear();
     }
-
-    // void CreateRandomSet(int amount)
-    // {
-    //     curveCreator.points.Clear();
-    //     for (int pointIdx = 0; pointIdx < amount; pointIdx++)
-    //     {
-    //         Vector3 newPos = new Vector3(
-    //             UnityEngine.Random.Range(-randomRange, randomRange),
-    //             UnityEngine.Random.Range(-randomRange, randomRange),
-    //             UnityEngine.Random.Range(-randomRange, randomRange)
-    //         );
-    //         curveCreator.points.Add(newPos);
-    //     }
-    // }
 
     void ResetVariables()
     {

@@ -5,24 +5,35 @@ using UnityEngine.Events;
 using CurveCollection;
 
 [ExecuteInEditMode]
-public class CurveCreator : MonoBehaviour
-{
+public class CurveCreator : MonoBehaviour {
     [HideInInspector]
     public List<Curve> curves = new List<Curve>();
     [HideInInspector]
-    public List<string> railName = new List<string>();
+    public List<string> railNames = new List<string>();
     [HideInInspector]
-    public List<AnimationCurve> animationCurve = new List<AnimationCurve>();
+    public List<AnimationCurve> animationCurves = new List<AnimationCurve>();
     [HideInInspector]
-    public List<UnityEvent> startTriggerObj  = new List<UnityEvent>();
+    public List<UnityEvent> startTriggerObjs  = new List<UnityEvent>();
     [HideInInspector]
-    public List<UnityEvent> endTriggerObj  = new List<UnityEvent>();
+    public List<UnityEvent> endTriggerObjs  = new List<UnityEvent>();
     [HideInInspector]
-    public List<float> startDelay = new List<float>();
+    public List<float> startDelays = new List<float>();
     [HideInInspector]
-    public List<float> endDelay = new List<float>();
+    public List<float> endDelays = new List<float>();
 
     //-------
     [HideInInspector]
     public List<bool> showAnimationRail = new List<bool>();
+
+    public void InvokeStartObject(int curveIdx) {
+        startTriggerObjs[curveIdx].Invoke();
+    }
+
+    public void InvokeEndObjects(int curveIdx) {
+        endTriggerObjs[curveIdx].Invoke();
+    }
+
+    public int GetRailIdx(string railName) {
+        return railNames.FindIndex(a => a.Contains(railName));
+    }
 }
