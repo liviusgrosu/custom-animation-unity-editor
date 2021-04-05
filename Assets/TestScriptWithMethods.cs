@@ -4,16 +4,12 @@ using UnityEngine;
 
 public class TestScriptWithMethods : MonoBehaviour
 {
-    public void functionA() 
+    public void testStartFunction() 
     {
-        Debug.Log("function A Invoked");
+        Debug.Log("Start function invoked");
     }
-    public void functionB(int val) 
+    public void testEndFunction() 
     {
-        Debug.Log("function B Invoked");
-    }
-    public void functionC() 
-    {
-        Debug.Log("function C Invoked");
+        Debug.Log("End function invoked");
     }
 }
