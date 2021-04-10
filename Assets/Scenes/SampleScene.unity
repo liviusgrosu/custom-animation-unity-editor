@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: c59f4f28370e6d544a7e28eb78d71091, type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: eb5a0bf208d7d8f4baa2f034abbbe7fb, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -133,7 +133,6 @@ GameObject:
   m_Component:
   - component: {fileID: 70661844}
   - component: {fileID: 70661843}
-  - component: {fileID: 70661842}
   m_Layer: 0
   m_Name: Test Method
   m_TagString: Untagged
@@ -141,26 +140,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &70661842
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 70661841}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b805a0268eb1064eac5c2968b8cc9f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  curves: []
-  railName: []
-  animationCurve: []
-  startTriggerObj: []
-  endTriggerObj: []
-  startDelay: []
-  endDelay: []
-  showAnimationRail: 
 --- !u!114 &70661843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,7 +164,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
@@ -216,7 +195,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.28
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -277,7 +256,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &745456538
 GameObject:
@@ -310,7 +289,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bd71dbd08dd7a64cb7eb464c83c5516, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Curves: {fileID: 2113254019}
+  RailEditor: {fileID: 2113254019}
+  RailName: Example Rail
   MovementSpeed: 6
 --- !u!23 &745456540
 MeshRenderer:
@@ -373,7 +353,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &963194225
 GameObject:
@@ -458,6 +438,151 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1420426669
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 14.910154
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.7171373
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -9.471254
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4157260475936095490, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -4157260475936095490, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.00000023040467
+      objectReference: {fileID: 0}
+    - target: {fileID: -4157260475936095490, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.0000002304047
+      objectReference: {fileID: 0}
+    - target: {fileID: -4157260475936095490, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071067
+      objectReference: {fileID: 0}
+    - target: {fileID: -4157260475936095490, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4157260475936095490, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4157260475936095490, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3364534032757030941, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+      propertyPath: m_Name
+      value: Left Claw
+      objectReference: {fileID: 0}
+    - target: {fileID: -1725675028798855729, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.00000013767877
+      objectReference: {fileID: 0}
+    - target: {fileID: -1725675028798855729, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -1725675028798855729, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.70710677
+      objectReference: {fileID: 0}
+    - target: {fileID: -1725675028798855729, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.00000013767878
+      objectReference: {fileID: 0}
+    - target: {fileID: -1725675028798855729, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1725675028798855729, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1725675028798855729, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1417234457293570546, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+      propertyPath: m_Name
+      value: Right Claw
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+      propertyPath: m_Name
+      value: Crane Bucket
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+--- !u!1 &1420426670 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f8e86555fbb0bee46af9a5e470d04734, type: 3}
+  m_PrefabInstance: {fileID: 1420426669}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1420426671
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420426670}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 039dafeead38d05429611cd297850424, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2113254018
 GameObject:
   m_ObjectHideFlags: 0
@@ -489,118 +614,53 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curves:
   - points:
-    - {x: 0.62793064, y: 1.9907227, z: 2.0894117}
-    - {x: 8.739372, y: -2.7912502, z: 2.6416302}
-    - {x: 21.301643, y: -4.088805, z: 3.1302328}
-    - {x: 30.021461, y: 1.5034628, z: 0.975935}
-  railName:
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  animationCurve:
+    - {x: -1.9971108, y: 4.188283, z: 0.95925903}
+    - {x: 9.576166, y: -0.42469025, z: 1.7316799}
+    - {x: 19.805367, y: 2.5910182, z: -1.9986305}
+    - {x: 20.465084, y: 6.6428146, z: -1.0150766}
+  railNames:
+  - Example Rail
+  animationCurves:
   - serializedVersion: 2
     m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  - serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  - serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  - serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  - serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  - serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  - serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  - serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  - serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  - serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  - serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  - serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  - serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  - serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  startTriggerObj:
+  startTriggerObjs:
   - m_PersistentCalls:
-      m_Calls: []
-  endTriggerObj:
+      m_Calls:
+      - m_Target: {fileID: 70661843}
+        m_TargetAssemblyTypeName: TestScriptWithMethods, Assembly-CSharp
+        m_MethodName: testStartFunction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  endTriggerObjs:
   - m_PersistentCalls:
-      m_Calls: []
-  startDelay:
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  endDelay:
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  showAnimationRail: 000000000000000000000000
+      m_Calls:
+      - m_Target: {fileID: 70661843}
+        m_TargetAssemblyTypeName: TestScriptWithMethods, Assembly-CSharp
+        m_MethodName: testEndFunction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  startDelays:
+  - 10
+  endDelays:
+  - 11
+  showAnimationRail: 01000000000000000000000000
 --- !u!4 &2113254020
 Transform:
   m_ObjectHideFlags: 0
@@ -613,5 +673,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
