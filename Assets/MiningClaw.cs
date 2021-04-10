@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cart : MonoBehaviour
+public class MiningClaw : MonoBehaviour
 {
     [Header("Rail")]
     public CurveCreator RailEditor;
