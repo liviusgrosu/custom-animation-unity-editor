@@ -30,7 +30,7 @@ public class MiningClaw : MonoBehaviour
         _currentTravelPoint = 1;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (_cartIsPausing) {
             return;
