@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,11 +17,6 @@ public class MiningClaw : MonoBehaviour
     private int _railDirection = 1; // 1: forwards, -1: backwards
     private float _distanceTolerance;
     private bool _cartIsPausing;
-    private Animator animator;
-
-    private void Awake() {
-        animator = GetComponent<Animator>();
-    }
 
     private void Start() {
         _currentRailIdx = RailEditor.GetRailIdx(RailName);
@@ -40,7 +35,6 @@ public class MiningClaw : MonoBehaviour
         if (_cartIsPausing) {
             return;
         }
-        //Debug.Log(Vector3.Distance(transform.position, RailEditor.curves[_currentRailIdx].points[_currentTravelPoint]));
         if (Vector3.Distance(transform.position, RailEditor.curves[_currentRailIdx].points[_currentTravelPoint]) > _distanceTolerance) { 
             float step =  MovementSpeed * Time.deltaTime; // calculate distance to move
             transform.position = Vector3.MoveTowards(transform.position, RailEditor.curves[_currentRailIdx].points[_currentTravelPoint], step);
@@ -48,13 +42,13 @@ public class MiningClaw : MonoBehaviour
         else {
             
             if (_currentTravelPoint == 0) {
-                // RailEditor.InvokeStartObject(_currentRailIdx);
+                RailEditor.InvokeStartObject(_currentRailIdx);
                 StartCoroutine(PauseCartForDelay(RailEditor.startDelays[_currentRailIdx]));
                 // Toggle direction
                 _railDirection *= -1;
             }
             else if (_currentTravelPoint == RailEditor.curves[_currentRailIdx].points.Count - 1) {
-                // RailEditor.InvokeEndObjects(_currentRailIdx);
+                RailEditor.InvokeEndObjects(_currentRailIdx);
                 StartCoroutine(PauseCartForDelay(RailEditor.endDelays[_currentRailIdx]));
                 ToggleRailDirection();
                 // Toggle direction
