@@ -6,20 +6,35 @@ public class MiningClaw : MonoBehaviour
 {
     [Header("Rail")]
     public CurveCreator RailEditor;
-    public string RailName;
+    public string OreRailName, CoalRailName;
     public bool LoopRail;
     [Space(5)]
     [Header("Movement")]
     public float MovementSpeed = 1f;
+    [Header("Other")]
+    public OreManager OreManager;
 
     private int _currentRailIdx = -1;
+    private string _currentRailName;
     private int _currentTravelPoint;
     private int _railDirection = 1; // 1: forwards, -1: backwards
     private float _distanceTolerance;
     private bool _cartIsPausing;
 
+    public delegate void RailDelegate();
+    private RailDelegate _railDelegate;
+
+    private void Awake() {
+        _railDelegate = ToggleRailTracks;
+    }
+
     private void Start() {
-        _currentRailIdx = RailEditor.GetRailIdx(RailName);
+        // Pass rail delegate to the ore manager
+        GameObject.Find("Ore Manager").GetComponent<OreManager>().ReceiveToggleRailCallback(_railDelegate);
+
+        // Set the ore rail as the first rail 
+        _currentRailName = OreRailName;
+        _currentRailIdx = RailEditor.GetRailIdx(_currentRailName);
 
         if(_currentRailIdx < 0) {
             Debug.LogError("Can't find rail index given name");
@@ -30,28 +45,30 @@ public class MiningClaw : MonoBehaviour
         _currentTravelPoint = 1;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (_cartIsPausing) {
             return;
         }
         if (Vector3.Distance(transform.position, RailEditor.curves[_currentRailIdx].points[_currentTravelPoint]) > _distanceTolerance) { 
+            // Go to the next point if not close
             float step =  MovementSpeed * Time.deltaTime; // calculate distance to move
             transform.position = Vector3.MoveTowards(transform.position, RailEditor.curves[_currentRailIdx].points[_currentTravelPoint], step);
         }
         else {
-            
             if (_currentTravelPoint == 0) {
+                // Start trigger and delay
                 RailEditor.InvokeStartObject(_currentRailIdx);
                 StartCoroutine(PauseCartForDelay(RailEditor.startDelays[_currentRailIdx]));
                 // Toggle direction
-                _railDirection *= -1;
+                ToggleRailDirection();
             }
             else if (_currentTravelPoint == RailEditor.curves[_currentRailIdx].points.Count - 1) {
+                // End trigger and delay
                 RailEditor.InvokeEndObjects(_currentRailIdx);
                 StartCoroutine(PauseCartForDelay(RailEditor.endDelays[_currentRailIdx]));
-                ToggleRailDirection();
                 // Toggle direction
+                ToggleRailDirection();
             }
             // Step over to next point on rail
             _currentTravelPoint += _railDirection;
@@ -61,6 +78,17 @@ public class MiningClaw : MonoBehaviour
     private void ToggleRailDirection() {
         // Change the direction of the cart
         _railDirection *= -1;
+    }
+
+    private void ToggleRailTracks() {
+        // Toggle the two rails 
+        if (_currentRailName == OreRailName) {
+            _currentRailName = CoalRailName;
+        } 
+        else if (_currentRailName == CoalRailName) {
+            _currentRailName = OreRailName;
+        }
+        _currentRailIdx = RailEditor.GetRailIdx(_currentRailName);
     }
 
     IEnumerator PauseCartForDelay(float pauseTime) {
