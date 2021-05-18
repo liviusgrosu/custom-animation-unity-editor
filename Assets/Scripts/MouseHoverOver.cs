@@ -23,7 +23,9 @@ public class MouseHoverOver : MonoBehaviour
         // Make outline visible
         ChangeOutline(_outlineWidth, _hoverColor);
 
-        if (Input.GetMouseButtonDown(0) && RailManager.SelectStation(this.gameObject)) {
+        if (Input.GetMouseButtonDown(0)) {
+            // Change to that station
+            RailManager.SelectStation(this.gameObject, GetComponent<TempDirectionIndicator>().Direction);
             // Change the object outline colour to selected
             ChangeOutline(_outlineWidth, _selectedColour);
         }

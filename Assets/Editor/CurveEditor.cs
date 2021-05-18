@@ -57,8 +57,6 @@ public class CurveEditor : Editor
 
                 EditorGUILayout.PropertyField(startTriggerObjs.GetArrayElementAtIndex(curveIdx), new GUIContent("Start Trigger"), false);
                 EditorGUILayout.PropertyField(endTriggerObjs.GetArrayElementAtIndex(curveIdx), new GUIContent("End Trigger"), false);
-                
-
             }
         }
 
@@ -99,42 +97,65 @@ public class CurveEditor : Editor
         // Convert mouse position to world position via a ray
         Ray mouseRay = HandleUtility.GUIPointToWorldRay(guiEvent.mousePosition);
 
-        // Check if pressing mouse down and that we are not using alt/ctrl/fnc/etc...
-        if (guiEvent.type == EventType.MouseDown && Event.current.button == 0)
+
+        if(guiEvent.type == EventType.MouseDown)
         {
-            if (guiEvent.modifiers == EventModifiers.None)
+            // Check if pressing mouse down and that we are not using alt/ctrl/fnc/etc...
+            if (Event.current.button == 0)
             {
-                // Select point
-                HandleLeftMouseDown();
+                if (guiEvent.modifiers == EventModifiers.None)
+                {
+                    // Select point
+                    HandleLeftMouseDown();
+                }
+                else if (guiEvent.modifiers == EventModifiers.Shift)
+                {
+                    // Create point
+                    HandleShiftLeftMouseDown(mouseRay);
+                }
+                else if (guiEvent.modifiers == EventModifiers.Control)
+                {
+                    // Delete point
+                    HandleControlLeftMouseDown();
+                }
             }
-            else if (guiEvent.modifiers == EventModifiers.Shift)
+            else if (Event.current.button == 1)
             {
-                // Create point
-                HandleShiftLeftMouseDown(mouseRay);
+                if (guiEvent.modifiers == EventModifiers.Shift)
+                {
+                    // Create curve
+                    HandleShiftRightMouseDown(mouseRay);
+                }
             }
-            else if (guiEvent.modifiers == EventModifiers.Control)
+            else if (Event.current.button == 2)
             {
-                // Delete point
-                HandleControlLeftMouseDown();
-            }
-        }
-        if (guiEvent.type == EventType.MouseDown && Event.current.button == 1)
-        {
-            if (guiEvent.modifiers == EventModifiers.Shift)
-            {
-                // Create curve
-                HandleShiftRightMouseDown(mouseRay);
+                if (guiEvent.modifiers == EventModifiers.None)
+                {
+                    // Select point
+                    HandleMiddleMouseDown();
+                }
             }
         }
 
         // Check if mouse is hovering over a point
         UpdateMouseOverInfo(mouseRay);
     }
+
+    void HandleMiddleMouseDown()
+    {
+        if(selectionInfo.pointHoverOver == -1)
+        {
+            return;
+        }
+        // Select the curve
+        selectionInfo.curveSelected = selectionInfo.curveHoverOver;
+        // intermediate point is selected by the hovered point over
+        curveCreator.curves[selectionInfo.curveSelected].intermediatePointIdx = selectionInfo.pointHoverOver;
+    }
     
     void HandleLeftMouseDown()
     {
         // Select the point and curve that is hovered over
-
         if(selectionInfo.pointHoverOver == -1)
         {
             // Click away from selected point if applicable
@@ -212,7 +233,6 @@ public class CurveEditor : Editor
 
         for (int curveIdx = 0; curveIdx < curveCreator.curves.Count; curveIdx++)
         {
-            
             for (int pointIdx = 0; pointIdx < curveCreator.curves[curveIdx].points.Count; pointIdx++)
             {
                 Vector3 point = curveCreator.curves[curveIdx].points[pointIdx];
@@ -261,6 +281,11 @@ public class CurveEditor : Editor
                     // Ensures that the point being hovered over is contained within the curve
                     Handles.color = hoverPoint && hoverCurve == selectedCurve ? Color.magenta : Color.black;
 
+                    if (pointIdx == curveCreator.curves[curveIdx].intermediatePointIdx) 
+                    {
+                        Handles.color = Color.yellow;
+                    }
+
                     if (selectedPoint)
                     {
                         Handles.color = Color.red;
@@ -272,7 +297,7 @@ public class CurveEditor : Editor
                     }
 
                     Handles.SphereHandleCap(0, currentPointPos, Quaternion.LookRotation(Vector3.up), 0.5f, EventType.Repaint);
-                    Handles.color = Color.black;
+                    Handles.color = Color.white;
                     if (pointIdx < pointsCount - 1)
                     {
                         Handles.DrawDottedLine(currentPointPos, curveCreator.curves[curveIdx].points[pointIdx + 1], 4);
@@ -281,7 +306,14 @@ public class CurveEditor : Editor
                 else
                 {
                     Handles.color = hoverCurve ? Color.green : Color.gray;
+
+                    if (pointIdx == curveCreator.curves[curveIdx].intermediatePointIdx) 
+                    {
+                        Handles.color = Color.yellow;
+                    }
+
                     Handles.SphereHandleCap(0, currentPointPos, Quaternion.LookRotation(Vector3.up), 0.5f, EventType.Repaint);
+                    Handles.color = hoverCurve ? Color.green : Color.gray;
                     if (pointIdx < pointsCount - 1)
                     {
                         Handles.DrawDottedLine(currentPointPos, curveCreator.curves[curveIdx].points[pointIdx + 1], 4);

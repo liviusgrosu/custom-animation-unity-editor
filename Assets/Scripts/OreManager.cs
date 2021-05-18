@@ -15,7 +15,7 @@ public class OreManager : MonoBehaviour
         get { return __coalAmount; } 
         set { __coalAmount = Mathf.Clamp(value, 0, MaxCoalAmount); } 
     }
-    private MiningClaw.RailDelegate RailDelegate;
+    private MiningClawOLD.RailDelegate RailDelegate;
     private bool _isLoadingCoal;
 
     private void Start() {
@@ -48,7 +48,7 @@ public class OreManager : MonoBehaviour
         }
     }
 
-    public void ReceiveToggleRailCallback(MiningClaw.RailDelegate callback) {
+    public void ReceiveToggleRailCallback(MiningClawOLD.RailDelegate callback) {
         RailDelegate = callback;
     }
 

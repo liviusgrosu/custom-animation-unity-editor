@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class RailManager : MonoBehaviour
 {
+    private MiningClaw MiningClaw;
     private GameObject _selectedStation;
 
-    public bool SelectStation(GameObject building) {
-        if (_selectedStation == null || _selectedStation != building) {
+    private void Start() {
+        MiningClaw = GameObject.Find("Claw Bucket").GetComponent<MiningClaw>();
+    } 
+
+    public void SelectStation(GameObject station, int direction) {
+        if (_selectedStation != station) {
             // Deselect the other buildings
             DeselectStations();
-            _selectedStation = building;
-            return true;
+            _selectedStation = station;
+            // Change mining claw to new station
+            MiningClaw.SwitchRails(station.GetComponent<Station>().RailAssociated, direction);
         }
-        return false;
     }
 
     private void DeselectStations() {
