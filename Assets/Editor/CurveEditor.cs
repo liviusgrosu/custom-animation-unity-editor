@@ -250,19 +250,30 @@ public class CurveEditor : Editor
                 Vector3 currentPointPos = curveCreator.curves[curveIdx].Points[pointIdx];
                 int pointsCount = curveCreator.curves[curveIdx].Points.Count;
 
+                string pointTypeLabel = "";
+                if(pointIdx == curveCreator.curves[curveIdx].FirstStationIdx) {
+                    pointTypeLabel += " First ";
+                }
+                if(pointIdx == curveCreator.curves[curveIdx].IntermediatePointIdx) {
+                    pointTypeLabel += " Intermediate ";
+                }
+                if(pointIdx == curveCreator.curves[curveIdx].SecondStationIdx) {
+                    pointTypeLabel += " Second ";
+                }
+
+                // Display the point type about the point
+                DrawLabel(currentPointPos + new Vector3(0, 1f, 0), pointTypeLabel, Color.red);
+
                 if (selectedCurve) {
                     if (selectedPoint) {
                         Vector3 newPointPosition = Handles.PositionHandle(curveCreator.curves[curveIdx].Points[pointIdx], Quaternion.identity);
                         if (EditorGUI.EndChangeCheck()) {
                             curveCreator.curves[curveIdx].Points[pointIdx] = newPointPosition;
                         }
-                        // Show label that its selected and its position
-                        Vector3 selectedPointPos = curveCreator.curves[curveIdx].Points[pointIdx];
-                        DrawLabel(selectedPointPos + new Vector3(0, 1f, 0), $"SELECTED\n{selectedPointPos.ToString()}", Color.green);
-
-                        DrawPointOptionsButton("First Station", selectedPointPos + new Vector3(-1f, -1f, 0), pointIdx, Color.green);
-                        DrawPointOptionsButton("Intermediate", selectedPointPos + new Vector3(0f, -1f, 0), pointIdx, Color.yellow);
-                        DrawPointOptionsButton("First Station", selectedPointPos + new Vector3(1f, -1f, 0), pointIdx, Color.red);
+                        // Show buttons that selects the point type
+                        DrawPointOptionsButton("First Station", currentPointPos + new Vector3(-1f, -1f, 0), pointIdx, Color.green);
+                        DrawPointOptionsButton("Intermediate", currentPointPos + new Vector3(0f, -1f, 0), pointIdx, Color.yellow);
+                        DrawPointOptionsButton("Second Station", currentPointPos + new Vector3(1f, -1f, 0), pointIdx, Color.red);
                     }
 
                     // Ensures that the point being hovered over is contained within the curve

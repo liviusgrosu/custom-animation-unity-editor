@@ -171,9 +171,10 @@ MonoBehaviour:
     - {x: -3.0272284, y: 6.225725, z: 7.564459}
     - {x: -0.26036024, y: 7.6832657, z: 7.869173}
     - {x: 2.3942058, y: 6.507881, z: 6.7988324}
-    IntermediatePointIdx: 2
-    FirstStationIdx: 1
-    SecondStationIdx: 1
+    - {x: 5.848475, y: 7.193912, z: 6.9768696}
+    IntermediatePointIdx: 1
+    FirstStationIdx: 0
+    SecondStationIdx: 3
   railNames:
   - Mine to Processor
   - Proccessed to Refiner
