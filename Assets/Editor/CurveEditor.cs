@@ -55,8 +55,8 @@ public class CurveEditor : Editor
                 EditorGUILayout.PropertyField(startDelays.GetArrayElementAtIndex(curveIdx), new GUIContent("Start Delay"), false);
                 EditorGUILayout.PropertyField(endDelays.GetArrayElementAtIndex(curveIdx), new GUIContent("End Delay"), false);
 
-                EditorGUILayout.PropertyField(startTriggerObjs.GetArrayElementAtIndex(curveIdx), new GUIContent("Start Trigger"), false);
-                EditorGUILayout.PropertyField(endTriggerObjs.GetArrayElementAtIndex(curveIdx), new GUIContent("End Trigger"), false);
+                EditorGUILayout.PropertyField(startTriggerObjs.GetArrayElementAtIndex(curveIdx), new GUIContent("First Station"), false);
+                EditorGUILayout.PropertyField(endTriggerObjs.GetArrayElementAtIndex(curveIdx), new GUIContent("Second Station"), false);
             }
         }
 
@@ -134,6 +134,11 @@ public class CurveEditor : Editor
                     // Select point
                     HandleMiddleMouseDown();
                 }
+                else if (guiEvent.modifiers == EventModifiers.Control)
+                {
+                    // Select point
+                    HandleMiddleControlMouseDown();
+                }
             }
         }
 
@@ -150,7 +155,12 @@ public class CurveEditor : Editor
         // Select the curve
         selectionInfo.curveSelected = selectionInfo.curveHoverOver;
         // intermediate point is selected by the hovered point over
-        curveCreator.curves[selectionInfo.curveSelected].intermediatePointIdx = selectionInfo.pointHoverOver;
+        curveCreator.curves[selectionInfo.curveSelected].IntermediatePointIdx = selectionInfo.pointHoverOver;
+    }
+
+    void HandleMiddleControlMouseDown()
+    {
+        
     }
     
     void HandleLeftMouseDown()
@@ -184,7 +194,7 @@ public class CurveEditor : Editor
         // Create point in the selected point
         CreateNewPoint(mousePosition);
         // New curve is the selected curve
-        selectionInfo.pointSelected = curveCreator.curves[selectionInfo.curveSelected].points.Count() - 1;
+        selectionInfo.pointSelected = curveCreator.curves[selectionInfo.curveSelected].Points.Count() - 1;
     }
 
     void HandleControlLeftMouseDown()
@@ -199,9 +209,9 @@ public class CurveEditor : Editor
             }
 
             DeletePoint();
-            if (!curveCreator.curves[selectionInfo.curveSelected].points.Any())
+            if (!curveCreator.curves[selectionInfo.curveSelected].Points.Any())
             {
-                // Remove the curve if there are no points
+                // Remove the curve if there are no Points
                 curveCreator.curves.RemoveAt(selectionInfo.curveSelected);
                 selectionInfo.curveSelected = -1;
             }
@@ -220,7 +230,7 @@ public class CurveEditor : Editor
         // Create point in the selected point
         CreateNewPoint(mousePosition);
         // New curve is the selected curve
-        selectionInfo.pointSelected = curveCreator.curves[selectionInfo.curveSelected].points.Count() - 1;
+        selectionInfo.pointSelected = curveCreator.curves[selectionInfo.curveSelected].Points.Count() - 1;
     }
 
 
@@ -233,9 +243,9 @@ public class CurveEditor : Editor
 
         for (int curveIdx = 0; curveIdx < curveCreator.curves.Count; curveIdx++)
         {
-            for (int pointIdx = 0; pointIdx < curveCreator.curves[curveIdx].points.Count; pointIdx++)
+            for (int pointIdx = 0; pointIdx < curveCreator.curves[curveIdx].Points.Count; pointIdx++)
             {
-                Vector3 point = curveCreator.curves[curveIdx].points[pointIdx];
+                Vector3 point = curveCreator.curves[curveIdx].Points[pointIdx];
 
                 float x = point.x - mouseRay.origin.x;
                 float y = point.y - mouseRay.origin.y;
@@ -265,7 +275,7 @@ public class CurveEditor : Editor
 
         for (int curveIdx = 0; curveIdx < curveCreator.curves.Count; curveIdx++)
         {
-            for (int pointIdx = 0; pointIdx < curveCreator.curves[curveIdx].points.Count; pointIdx++)
+            for (int pointIdx = 0; pointIdx < curveCreator.curves[curveIdx].Points.Count; pointIdx++)
             {
                 bool hoverCurve = selectionInfo.curveHoverOver == curveIdx;
                 bool hoverPoint = selectionInfo.pointHoverOver == pointIdx;
@@ -273,15 +283,15 @@ public class CurveEditor : Editor
                 bool selectedCurve = selectionInfo.curveSelected == curveIdx;
                 bool selectedPoint = selectionInfo.pointSelected == pointIdx;
 
-                Vector3 currentPointPos = curveCreator.curves[curveIdx].points[pointIdx];
-                int pointsCount = curveCreator.curves[curveIdx].points.Count;
+                Vector3 currentPointPos = curveCreator.curves[curveIdx].Points[pointIdx];
+                int pointsCount = curveCreator.curves[curveIdx].Points.Count;
 
                 if (selectedCurve)
                 {
                     // Ensures that the point being hovered over is contained within the curve
                     Handles.color = hoverPoint && hoverCurve == selectedCurve ? Color.magenta : Color.black;
 
-                    if (pointIdx == curveCreator.curves[curveIdx].intermediatePointIdx) 
+                    if (pointIdx == curveCreator.curves[curveIdx].IntermediatePointIdx) 
                     {
                         Handles.color = Color.yellow;
                     }
@@ -289,10 +299,10 @@ public class CurveEditor : Editor
                     if (selectedPoint)
                     {
                         Handles.color = Color.red;
-                        Vector3 newPointPosition = Handles.PositionHandle(curveCreator.curves[curveIdx].points[pointIdx], Quaternion.identity);
+                        Vector3 newPointPosition = Handles.PositionHandle(curveCreator.curves[curveIdx].Points[pointIdx], Quaternion.identity);
                         if (EditorGUI.EndChangeCheck())
                         {
-                            curveCreator.curves[curveIdx].points[pointIdx] = newPointPosition;
+                            curveCreator.curves[curveIdx].Points[pointIdx] = newPointPosition;
                         }
                     }
 
@@ -300,14 +310,14 @@ public class CurveEditor : Editor
                     Handles.color = Color.white;
                     if (pointIdx < pointsCount - 1)
                     {
-                        Handles.DrawDottedLine(currentPointPos, curveCreator.curves[curveIdx].points[pointIdx + 1], 4);
+                        Handles.DrawDottedLine(currentPointPos, curveCreator.curves[curveIdx].Points[pointIdx + 1], 4);
                     }
                 }
                 else
                 {
                     Handles.color = hoverCurve ? Color.green : Color.gray;
 
-                    if (pointIdx == curveCreator.curves[curveIdx].intermediatePointIdx) 
+                    if (pointIdx == curveCreator.curves[curveIdx].IntermediatePointIdx) 
                     {
                         Handles.color = Color.yellow;
                     }
@@ -316,7 +326,7 @@ public class CurveEditor : Editor
                     Handles.color = hoverCurve ? Color.green : Color.gray;
                     if (pointIdx < pointsCount - 1)
                     {
-                        Handles.DrawDottedLine(currentPointPos, curveCreator.curves[curveIdx].points[pointIdx + 1], 4);
+                        Handles.DrawDottedLine(currentPointPos, curveCreator.curves[curveIdx].Points[pointIdx + 1], 4);
                     }
                 }
             }
@@ -374,12 +384,12 @@ public class CurveEditor : Editor
         // Check which curve it goes into 
         Undo.RecordObject(curveCreator, "Create shape");
         // Add the point to the active curve
-        curveCreator.curves[selectionInfo.curveSelected].points.Add(position);
+        curveCreator.curves[selectionInfo.curveSelected].Points.Add(position);
     }
 
     void DeletePoint()
     {
-        curveCreator.curves[selectionInfo.curveSelected].points.RemoveAt(selectionInfo.pointHoverOver);
+        curveCreator.curves[selectionInfo.curveSelected].Points.RemoveAt(selectionInfo.pointHoverOver);
     }
 
     void ClearAll()

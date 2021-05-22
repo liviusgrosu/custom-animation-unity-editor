@@ -37,8 +37,8 @@ public class MiningClaw : MonoBehaviour {
         
         _currentRailIdx = 0;
         _currentRailName = RailEditor.railNames[_currentRailIdx];
-        _currentIntermediatePointIdx = RailEditor.curves[_currentRailIdx].intermediatePointIdx;
-        _currentIntermediatePointPos = RailEditor.curves[_currentRailIdx].points[_currentIntermediatePointIdx];
+        _currentIntermediatePointIdx = RailEditor.curves[_currentRailIdx].IntermediatePointIdx;
+        _currentIntermediatePointPos = RailEditor.curves[_currentRailIdx].Points[_currentIntermediatePointIdx];
 
         // Start traveling to the intermediate point
         _currentCartMode = Mode.traveling;
@@ -56,15 +56,15 @@ public class MiningClaw : MonoBehaviour {
                 // Go to working stage
                 _currentCartMode = Mode.working;
                 // Assign the next point to go to
-                _currentTravelPointIdx = Mathf.Clamp(_currentIntermediatePointIdx + 1, 0, RailEditor.curves[_currentRailIdx].points.Count - 1);
+                _currentTravelPointIdx = Mathf.Clamp(_currentIntermediatePointIdx + 1, 0, RailEditor.curves[_currentRailIdx].Points.Count - 1);
             }
         }
         else if(_currentCartMode == Mode.working) {
             //Debug.Log(_currentTravelPointIdx);
-            if (Vector3.Distance(transform.position, RailEditor.curves[_currentRailIdx].points[_currentTravelPointIdx]) > _distanceTolerance) { 
+            if (Vector3.Distance(transform.position, RailEditor.curves[_currentRailIdx].Points[_currentTravelPointIdx]) > _distanceTolerance) { 
                 // Go to the next point if not close
                 float step =  MovementSpeed * Time.deltaTime;
-                transform.position = Vector3.MoveTowards(transform.position, RailEditor.curves[_currentRailIdx].points[_currentTravelPointIdx], step);
+                transform.position = Vector3.MoveTowards(transform.position, RailEditor.curves[_currentRailIdx].Points[_currentTravelPointIdx], step);
             }
             else {
                 if (_currentTravelPointIdx == 0) {
@@ -75,7 +75,7 @@ public class MiningClaw : MonoBehaviour {
                     // Toggle direction
                     ToggleRailDirection();
                 }
-                else if (_currentTravelPointIdx == RailEditor.curves[_currentRailIdx].points.Count - 1) {
+                else if (_currentTravelPointIdx == RailEditor.curves[_currentRailIdx].Points.Count - 1) {
                     // End trigger and delay
                     //RailEditor.InvokeEndObjects(_currentRailIdx);
                     // Wait for the delay
@@ -103,8 +103,8 @@ public class MiningClaw : MonoBehaviour {
 
         _currentRailName = railName;
         _currentRailIdx = RailEditor.GetRailIdx(_currentRailName);
-        _currentIntermediatePointIdx = RailEditor.curves[_currentRailIdx].intermediatePointIdx;
-        _currentIntermediatePointPos = RailEditor.curves[_currentRailIdx].points[_currentIntermediatePointIdx];
+        _currentIntermediatePointIdx = RailEditor.curves[_currentRailIdx].IntermediatePointIdx;
+        _currentIntermediatePointPos = RailEditor.curves[_currentRailIdx].Points[_currentIntermediatePointIdx];
 
         _currentCartMode = Mode.traveling;
         if(direction == (int)Direction.forwards) {
