@@ -167,26 +167,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curves:
-  - points:
-    - {x: -6.5880537, y: 0.27142906, z: 11.107142}
-    - {x: -3.8444686, y: 0.55225813, z: 11.17067}
-    - {x: -1.3321431, y: 0.2782539, z: 11.2069845}
-    intermediatePointIdx: 1
-  - points:
-    - {x: 0.18553576, y: 0.26908112, z: 11.193369}
-    - {x: 2.9194565, y: 0.78916425, z: 11.18925}
-    - {x: 5.538015, y: 0.22319156, z: 11.218068}
-    intermediatePointIdx: 1
-  - points:
-    - {x: -3.6200218, y: 4.4754086, z: 11.1625}
-    - {x: -0.59246993, y: 5.1983085, z: 11.188988}
-    - {x: 2.9148731, y: 4.5515027, z: 11.176083}
-    intermediatePointIdx: 1
+  - Points:
+    - {x: -3.0272284, y: 6.225725, z: 7.564459}
+    - {x: -0.26036024, y: 7.6832657, z: 7.869173}
+    - {x: 2.3942058, y: 6.507881, z: 6.7988324}
+    IntermediatePointIdx: 2
+    FirstStationIdx: 1
+    SecondStationIdx: 1
   railNames:
   - Mine to Processor
   - Proccessed to Refiner
   - Coal Dispenser to Furnace
+  - 
+  - 
+  - 
   animationCurves:
+  - serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  - serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  - serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   - serializedVersion: 2
     m_Curve: []
     m_PreInfinity: 2
@@ -209,7 +219,19 @@ MonoBehaviour:
       m_Calls: []
   - m_PersistentCalls:
       m_Calls: []
+  - m_PersistentCalls:
+      m_Calls: []
+  - m_PersistentCalls:
+      m_Calls: []
+  - m_PersistentCalls:
+      m_Calls: []
   endTriggerObjs:
+  - m_PersistentCalls:
+      m_Calls: []
+  - m_PersistentCalls:
+      m_Calls: []
+  - m_PersistentCalls:
+      m_Calls: []
   - m_PersistentCalls:
       m_Calls: []
   - m_PersistentCalls:
@@ -220,11 +242,17 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+  - 0
+  - 0
+  - 0
   endDelays:
   - 0
   - 0
   - 0
-  showAnimationRail: 000001
+  - 0
+  - 0
+  - 0
+  showAnimationRail: 010000000000
 --- !u!1 &142917520
 GameObject:
   m_ObjectHideFlags: 0

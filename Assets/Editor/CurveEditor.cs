@@ -97,7 +97,6 @@ public class CurveEditor : Editor
         // Convert mouse position to world position via a ray
         Ray mouseRay = HandleUtility.GUIPointToWorldRay(guiEvent.mousePosition);
 
-
         if(guiEvent.type == EventType.MouseDown)
         {
             // Check if pressing mouse down and that we are not using alt/ctrl/fnc/etc...
@@ -127,40 +126,10 @@ public class CurveEditor : Editor
                     HandleShiftRightMouseDown(mouseRay);
                 }
             }
-            else if (Event.current.button == 2)
-            {
-                if (guiEvent.modifiers == EventModifiers.None)
-                {
-                    // Select point
-                    HandleMiddleMouseDown();
-                }
-                else if (guiEvent.modifiers == EventModifiers.Control)
-                {
-                    // Select point
-                    HandleMiddleControlMouseDown();
-                }
-            }
         }
 
         // Check if mouse is hovering over a point
         UpdateMouseOverInfo(mouseRay);
-    }
-
-    void HandleMiddleMouseDown()
-    {
-        if(selectionInfo.pointHoverOver == -1)
-        {
-            return;
-        }
-        // Select the curve
-        selectionInfo.curveSelected = selectionInfo.curveHoverOver;
-        // intermediate point is selected by the hovered point over
-        curveCreator.curves[selectionInfo.curveSelected].IntermediatePointIdx = selectionInfo.pointHoverOver;
-    }
-
-    void HandleMiddleControlMouseDown()
-    {
-        
     }
     
     void HandleLeftMouseDown()
@@ -187,8 +156,7 @@ public class CurveEditor : Editor
         if(selectionInfo.curveSelected == -1)
         {
             CreateNewCurve();
-            // New curve is the selected curve
-            selectionInfo.curveSelected = curveCreator.curves.Count() - 1;
+            
         }
 
         // Create point in the selected point
@@ -224,8 +192,6 @@ public class CurveEditor : Editor
         Vector3 mousePosition = mouseRay.GetPoint(mouseRay.origin.magnitude);
 
         CreateNewCurve();
-        // New curve is the selected curve
-        selectionInfo.curveSelected = curveCreator.curves.Count() - 1;
 
         // Create point in the selected point
         CreateNewPoint(mousePosition);
@@ -273,10 +239,8 @@ public class CurveEditor : Editor
     {
         EditorGUI.BeginChangeCheck();
 
-        for (int curveIdx = 0; curveIdx < curveCreator.curves.Count; curveIdx++)
-        {
-            for (int pointIdx = 0; pointIdx < curveCreator.curves[curveIdx].Points.Count; pointIdx++)
-            {
+        for (int curveIdx = 0; curveIdx < curveCreator.curves.Count; curveIdx++) {
+            for (int pointIdx = 0; pointIdx < curveCreator.curves[curveIdx].Points.Count; pointIdx++) {
                 bool hoverCurve = selectionInfo.curveHoverOver == curveIdx;
                 bool hoverPoint = selectionInfo.pointHoverOver == pointIdx;
 
@@ -286,52 +250,81 @@ public class CurveEditor : Editor
                 Vector3 currentPointPos = curveCreator.curves[curveIdx].Points[pointIdx];
                 int pointsCount = curveCreator.curves[curveIdx].Points.Count;
 
-                if (selectedCurve)
-                {
+                if (selectedCurve) {
+                    if (selectedPoint) {
+                        Vector3 newPointPosition = Handles.PositionHandle(curveCreator.curves[curveIdx].Points[pointIdx], Quaternion.identity);
+                        if (EditorGUI.EndChangeCheck()) {
+                            curveCreator.curves[curveIdx].Points[pointIdx] = newPointPosition;
+                        }
+                        // Show label that its selected and its position
+                        Vector3 selectedPointPos = curveCreator.curves[curveIdx].Points[pointIdx];
+                        DrawLabel(selectedPointPos + new Vector3(0, 1f, 0), $"SELECTED\n{selectedPointPos.ToString()}", Color.green);
+
+                        DrawPointOptionsButton("First Station", selectedPointPos + new Vector3(-1f, -1f, 0), pointIdx, Color.green);
+                        DrawPointOptionsButton("Intermediate", selectedPointPos + new Vector3(0f, -1f, 0), pointIdx, Color.yellow);
+                        DrawPointOptionsButton("First Station", selectedPointPos + new Vector3(1f, -1f, 0), pointIdx, Color.red);
+                    }
+
                     // Ensures that the point being hovered over is contained within the curve
                     Handles.color = hoverPoint && hoverCurve == selectedCurve ? Color.magenta : Color.black;
 
-                    if (pointIdx == curveCreator.curves[curveIdx].IntermediatePointIdx) 
-                    {
+                    if (pointIdx == curveCreator.curves[curveIdx].IntermediatePointIdx) {
                         Handles.color = Color.yellow;
-                    }
-
-                    if (selectedPoint)
-                    {
-                        Handles.color = Color.red;
-                        Vector3 newPointPosition = Handles.PositionHandle(curveCreator.curves[curveIdx].Points[pointIdx], Quaternion.identity);
-                        if (EditorGUI.EndChangeCheck())
-                        {
-                            curveCreator.curves[curveIdx].Points[pointIdx] = newPointPosition;
-                        }
                     }
 
                     Handles.SphereHandleCap(0, currentPointPos, Quaternion.LookRotation(Vector3.up), 0.5f, EventType.Repaint);
                     Handles.color = Color.white;
-                    if (pointIdx < pointsCount - 1)
-                    {
+                    if (pointIdx < pointsCount - 1) {
                         Handles.DrawDottedLine(currentPointPos, curveCreator.curves[curveIdx].Points[pointIdx + 1], 4);
                     }
                 }
-                else
-                {
+                else {
                     Handles.color = hoverCurve ? Color.green : Color.gray;
 
-                    if (pointIdx == curveCreator.curves[curveIdx].IntermediatePointIdx) 
-                    {
+                    if (pointIdx == curveCreator.curves[curveIdx].IntermediatePointIdx) {
                         Handles.color = Color.yellow;
                     }
 
                     Handles.SphereHandleCap(0, currentPointPos, Quaternion.LookRotation(Vector3.up), 0.5f, EventType.Repaint);
                     Handles.color = hoverCurve ? Color.green : Color.gray;
-                    if (pointIdx < pointsCount - 1)
-                    {
+                    if (pointIdx < pointsCount - 1) {
                         Handles.DrawDottedLine(currentPointPos, curveCreator.curves[curveIdx].Points[pointIdx + 1], 4);
                     }
                 }
             }
         }
         curveChangedSinceLastRepaint = false;
+    }
+
+    void DrawLabel(Vector3 position, string text, Color colour) {
+        //Select the text colour
+        GUIStyle style = new GUIStyle();
+        style.normal.textColor = colour;
+
+        // Draw out the label
+        Handles.BeginGUI();
+        Vector2 position2D = HandleUtility.WorldToGUIPoint(position);
+        GUI.Label(new Rect(position2D.x, position2D.y, 100, 100), text, style);
+        Handles.EndGUI();
+    }
+
+    void DrawPointOptionsButton(string pointType, Vector3 position, int pointIdx, Color colour) {
+        float size = 0.5f;
+        Handles.color = colour;
+        if (Handles.Button(position, Quaternion.identity, size, size, Handles.CubeHandleCap)) {
+            switch(pointType) {
+                case "First Station":
+                    curveCreator.curves[selectionInfo.curveSelected].FirstStationIdx = pointIdx;
+                    break;
+                case "Intermediate":
+                    curveCreator.curves[selectionInfo.curveSelected].IntermediatePointIdx = pointIdx;
+                    break;
+                case "Second Station":
+                    curveCreator.curves[selectionInfo.curveSelected].SecondStationIdx = pointIdx;
+                    break;
+            }
+
+        }
     }
 
     private void OnEnable()
@@ -360,6 +353,13 @@ public class CurveEditor : Editor
 
         curveCreator.endDelays.Add(0f);
         curveCreator.endTriggerObjs.Add(new UnityEvent());
+
+        // New curve is the selected curve
+        selectionInfo.curveSelected = curveCreator.curves.Count() - 1;
+
+        // Default it to -1 so the first point is not associated
+        curveCreator.curves[selectionInfo.curveSelected].FirstStationIdx = -1;
+        curveCreator.curves[selectionInfo.curveSelected].SecondStationIdx = -1;
     }
 
     void DeleteCurve()
