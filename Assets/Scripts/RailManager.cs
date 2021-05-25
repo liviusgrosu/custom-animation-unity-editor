@@ -11,13 +11,13 @@ public class RailManager : MonoBehaviour
         MiningClaw = GameObject.Find("Claw Bucket").GetComponent<MiningClaw>();
     } 
 
-    public void SelectStation(GameObject station, int direction) {
+    public void SelectStation(GameObject station) {
         if (_selectedStation != station) {
             // Deselect the other buildings
             DeselectStations();
             _selectedStation = station;
             // Change mining claw to new station
-            MiningClaw.SwitchRails(station.GetComponent<Station>().RailAssociated, direction);
+            MiningClaw.SwitchRails(station.name, station.GetComponent<Station>().RailAssociated);
         }
     }
 
