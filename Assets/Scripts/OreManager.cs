@@ -15,7 +15,6 @@ public class OreManager : MonoBehaviour
         get { return __coalAmount; } 
         set { __coalAmount = Mathf.Clamp(value, 0, MaxCoalAmount); } 
     }
-    private MiningClawOLD.RailDelegate RailDelegate;
     private bool _isLoadingCoal;
 
     private void Start() {
@@ -25,7 +24,6 @@ public class OreManager : MonoBehaviour
     private void Update() {
 
         if (_coalAmount <= 0 && !_isLoadingCoal || _coalAmount >= 10 && _isLoadingCoal) {
-            RailDelegate();
             _isLoadingCoal = !_isLoadingCoal;
         } 
 
@@ -46,10 +44,6 @@ public class OreManager : MonoBehaviour
                 _coalAmount++;
                 break;
         }
-    }
-
-    public void ReceiveToggleRailCallback(MiningClawOLD.RailDelegate callback) {
-        RailDelegate = callback;
     }
 
     private void DrainCoalAmount() {
