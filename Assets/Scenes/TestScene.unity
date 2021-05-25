@@ -168,17 +168,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curves:
   - Points:
-    - {x: -3.0272284, y: 6.225725, z: 7.564459}
-    - {x: -0.26036024, y: 7.6832657, z: 7.869173}
-    - {x: 2.3942058, y: 6.507881, z: 6.7988324}
-    - {x: 5.848475, y: 7.193912, z: 6.9768696}
+    - {x: -3.4982638, y: 4.7763023, z: 11.160681}
+    - {x: -0.21359158, y: 7.039076, z: 11.203329}
+    - {x: 2.9250946, y: 4.59382, z: 11.175391}
     IntermediatePointIdx: 1
     FirstStationIdx: 0
-    SecondStationIdx: 3
+    SecondStationIdx: 2
+    ForwardDirectionIncrement: -1
+    BackwardDirectionIncrement: 1
+  - Points:
+    - {x: -1.3449786, y: -0.26019502, z: 11.2302}
+    - {x: -3.64425, y: 1.4186372, z: 11.120941}
+    - {x: -6.417971, y: -0.33318758, z: 11.170546}
+    IntermediatePointIdx: 1
+    FirstStationIdx: 2
+    SecondStationIdx: 0
+    ForwardDirectionIncrement: 1
+    BackwardDirectionIncrement: -1
   railNames:
-  - Mine to Processor
-  - Proccessed to Refiner
   - Coal Dispenser to Furnace
+  - Mine to Processor
+  - Coal Dispenser to Furnace
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 
@@ -213,7 +227,59 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  - serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  - serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  - serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  - serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   startTriggerObjs:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1675843957}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1971977441}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls: []
+  - m_PersistentCalls:
+      m_Calls: []
   - m_PersistentCalls:
       m_Calls: []
   - m_PersistentCalls:
@@ -227,6 +293,38 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls: []
   endTriggerObjs:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1632975074}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 417789027}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls: []
+  - m_PersistentCalls:
+      m_Calls: []
   - m_PersistentCalls:
       m_Calls: []
   - m_PersistentCalls:
@@ -246,6 +344,10 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+  - 0
+  - 0
+  - 0
+  - 0
   endDelays:
   - 0
   - 0
@@ -253,7 +355,11 @@ MonoBehaviour:
   - 0
   - 0
   - 0
-  showAnimationRail: 010000000000
+  - 0
+  - 0
+  - 0
+  - 0
+  showAnimationRail: 00010000000000000000
 --- !u!1 &142917520
 GameObject:
   m_ObjectHideFlags: 0
@@ -468,7 +574,6 @@ GameObject:
   - component: {fileID: 417789030}
   - component: {fileID: 417789029}
   - component: {fileID: 417789032}
-  - component: {fileID: 417789033}
   - component: {fileID: 417789034}
   m_Layer: 0
   m_Name: Processor
@@ -566,19 +671,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RailManager: {fileID: 142917521}
---- !u!114 &417789033
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 417789027}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d48504b90b0d80145903c005c1a547b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Direction: -1
 --- !u!114 &417789034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1020,7 +1112,6 @@ GameObject:
   - component: {fileID: 1207061132}
   - component: {fileID: 1207061131}
   - component: {fileID: 1207061134}
-  - component: {fileID: 1207061135}
   - component: {fileID: 1207061136}
   m_Layer: 0
   m_Name: Refiner
@@ -1118,19 +1209,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RailManager: {fileID: 142917521}
---- !u!114 &1207061135
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1207061129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d48504b90b0d80145903c005c1a547b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Direction: -1
 --- !u!114 &1207061136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1277,7 +1355,6 @@ GameObject:
   - component: {fileID: 1398216697}
   - component: {fileID: 1398216696}
   - component: {fileID: 1398216695}
-  - component: {fileID: 1398216699}
   - component: {fileID: 1398216700}
   m_Layer: 0
   m_Name: Processed
@@ -1375,19 +1452,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1398216693}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1398216699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1398216693}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d48504b90b0d80145903c005c1a547b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Direction: 1
 --- !u!114 &1398216700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1497,7 +1561,6 @@ GameObject:
   - component: {fileID: 1632975077}
   - component: {fileID: 1632975076}
   - component: {fileID: 1632975079}
-  - component: {fileID: 1632975080}
   - component: {fileID: 1632975081}
   m_Layer: 0
   m_Name: Furnace
@@ -1595,19 +1658,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RailManager: {fileID: 142917521}
---- !u!114 &1632975080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1632975074}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d48504b90b0d80145903c005c1a547b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Direction: -1
 --- !u!114 &1632975081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1634,7 +1684,6 @@ GameObject:
   - component: {fileID: 1675843960}
   - component: {fileID: 1675843959}
   - component: {fileID: 1675843962}
-  - component: {fileID: 1675843963}
   - component: {fileID: 1675843964}
   m_Layer: 0
   m_Name: Coal Dispenser
@@ -1732,19 +1781,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RailManager: {fileID: 142917521}
---- !u!114 &1675843963
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1675843957}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d48504b90b0d80145903c005c1a547b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Direction: 1
 --- !u!114 &1675843964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1850,7 +1886,6 @@ GameObject:
   - component: {fileID: 1971977444}
   - component: {fileID: 1971977443}
   - component: {fileID: 1971977446}
-  - component: {fileID: 1971977447}
   - component: {fileID: 1971977448}
   m_Layer: 0
   m_Name: Mine
@@ -1948,19 +1983,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RailManager: {fileID: 142917521}
---- !u!114 &1971977447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1971977441}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d48504b90b0d80145903c005c1a547b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Direction: 1
 --- !u!114 &1971977448
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,7 +7,7 @@ namespace CurveCollection {
     public class Curve {
         public List<Vector3> Points = new List<Vector3>();
         public int IntermediatePointIdx;
-        public int FirstStationIdx;
-        public int SecondStationIdx;
+        public int FirstStationIdx, SecondStationIdx;
+        public int ForwardDirectionIncrement, BackwardDirectionIncrement;
     }
 }

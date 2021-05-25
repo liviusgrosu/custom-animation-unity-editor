@@ -25,24 +25,23 @@ public class MiningClaw : MonoBehaviour {
         traveling
     }
 
-    private enum Direction : short {
-        forwards = 1, 
-        backwards = -1
+    private struct Direction {
+        public Direction(int forwards, int backwards)
+        {
+            forwardIncrement = forwards;
+            backwardIncrement = backwards;
+            currentDirection = -1;
+        }
+        public int forwardIncrement;
+        public int backwardIncrement;
+        public int currentDirection;
     }
+
     private Mode _currentCartMode;
-    private Direction _currentDirection;
+    private Direction _direction;
 
     private void Start() {
-        _railManager = GameObject.Find("Rail Manager").GetComponent<RailManager>();
-        
-        _currentRailIdx = 0;
-        _currentRailName = RailEditor.railNames[_currentRailIdx];
-        _currentIntermediatePointIdx = RailEditor.curves[_currentRailIdx].IntermediatePointIdx;
-        _currentIntermediatePointPos = RailEditor.curves[_currentRailIdx].Points[_currentIntermediatePointIdx];
-
-        // Start traveling to the intermediate point
-        _currentCartMode = Mode.traveling;
-        _currentDirection = Direction.forwards;
+        SwitchRails("Mine", "Mine to Processor");
     }
 
     private void Update() {
@@ -56,7 +55,7 @@ public class MiningClaw : MonoBehaviour {
                 // Go to working stage
                 _currentCartMode = Mode.working;
                 // Assign the next point to go to
-                _currentTravelPointIdx = Mathf.Clamp(_currentIntermediatePointIdx + 1, 0, RailEditor.curves[_currentRailIdx].Points.Count - 1);
+                _currentTravelPointIdx = Mathf.Clamp(_currentIntermediatePointIdx + _direction.currentDirection, 0, RailEditor.curves[_currentRailIdx].Points.Count - 1);
             }
         }
         else if(_currentCartMode == Mode.working) {
@@ -84,35 +83,40 @@ public class MiningClaw : MonoBehaviour {
                     ToggleRailDirection();
                 }
                 // Step over to next point on rail
-                _currentTravelPointIdx += (int)_currentDirection;
+                _currentTravelPointIdx += _direction.currentDirection;   
             }
         }
     }
 
     private void ToggleRailDirection() {
         // Change the direction of the cart
-        if (_currentDirection == Direction.forwards) {
-            _currentDirection = Direction.backwards;
+        if (_direction.currentDirection == _direction.forwardIncrement) {
+            _direction.currentDirection = _direction.backwardIncrement;
         }
         else {
-            _currentDirection = Direction.forwards;
+            _direction.currentDirection = _direction.forwardIncrement;
         }
     }
 
-    public void SwitchRails(string railName, int direction) {
-
+    public void SwitchRails(string stationName, string railName) {
+        // Store the rails points
         _currentRailName = railName;
         _currentRailIdx = RailEditor.GetRailIdx(_currentRailName);
         _currentIntermediatePointIdx = RailEditor.curves[_currentRailIdx].IntermediatePointIdx;
         _currentIntermediatePointPos = RailEditor.curves[_currentRailIdx].Points[_currentIntermediatePointIdx];
 
+        // Store the directions increment
+        _direction = new Direction(RailEditor.curves[_currentRailIdx].ForwardDirectionIncrement, 
+                                    RailEditor.curves[_currentRailIdx].BackwardDirectionIncrement);
+
+        // Assign direction
+        if (stationName == RailEditor.startTriggerObjs[_currentRailIdx].GetPersistentTarget(0).name) {
+            _direction.currentDirection = _direction.forwardIncrement;
+        }
+        else if (stationName == RailEditor.endTriggerObjs[_currentRailIdx].GetPersistentTarget(0).name) {
+            _direction.currentDirection = _direction.backwardIncrement;
+        }
         _currentCartMode = Mode.traveling;
-        if(direction == (int)Direction.forwards) {
-            _currentDirection = Direction.forwards;
-        }
-        else {
-            _currentDirection = Direction.backwards;
-        }
     }
 
     IEnumerator PauseCartForDelay(float pauseTime) {

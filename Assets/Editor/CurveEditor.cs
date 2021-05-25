@@ -274,6 +274,12 @@ public class CurveEditor : Editor
                         DrawPointOptionsButton("First Station", currentPointPos + new Vector3(-1f, -1f, 0), pointIdx, Color.green);
                         DrawPointOptionsButton("Intermediate", currentPointPos + new Vector3(0f, -1f, 0), pointIdx, Color.yellow);
                         DrawPointOptionsButton("Second Station", currentPointPos + new Vector3(1f, -1f, 0), pointIdx, Color.red);
+
+                        if (curveCreator.curves[selectionInfo.curveSelected].FirstStationIdx != -1 &&
+                            curveCreator.curves[selectionInfo.curveSelected].SecondStationIdx != -1) {
+                                // Calculate the directions once we know where the first and second station is
+                                CalculateDirections();
+                        }
                     }
 
                     // Ensures that the point being hovered over is contained within the curve
@@ -305,6 +311,18 @@ public class CurveEditor : Editor
             }
         }
         curveChangedSinceLastRepaint = false;
+    }
+
+    void CalculateDirections() {
+        // Calculate the movement point increments based on where the first and second index lies
+        if (curveCreator.curves[selectionInfo.curveSelected].FirstStationIdx < curveCreator.curves[selectionInfo.curveSelected].IntermediatePointIdx) {
+            curveCreator.curves[selectionInfo.curveSelected].ForwardDirectionIncrement = -1;
+            curveCreator.curves[selectionInfo.curveSelected].BackwardDirectionIncrement = 1;
+        }
+        else {
+            curveCreator.curves[selectionInfo.curveSelected].ForwardDirectionIncrement = 1;
+            curveCreator.curves[selectionInfo.curveSelected].BackwardDirectionIncrement = -1;
+        }
     }
 
     void DrawLabel(Vector3 position, string text, Color colour) {
