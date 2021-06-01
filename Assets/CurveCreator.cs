@@ -26,7 +26,6 @@ public class CurveCreator : MonoBehaviour {
     public List<bool> showAnimationRail = new List<bool>();
 
     public void InvokeStartObject(int curveIdx) {
-        Debug.Log("Start Obj Trigger");
         startTriggerObjs[curveIdx].Invoke();
     }
 
