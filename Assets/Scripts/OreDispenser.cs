@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OreDispenser : MonoBehaviour
+public class OreDispenser : MonoBehaviour, IStation
 {
     public Transform OreSpawn;
     public GameObject[] OreObjects;

@@ -45,6 +45,9 @@ public class MiningClaw : MonoBehaviour {
     }
 
     private void Update() {
+        if (_cartIsPausing) {
+            return;
+        }
         if (_currentCartMode == Mode.traveling) {
             if (Vector3.Distance(transform.position, _currentIntermediatePointPos) > _distanceTolerance) {
                 // Move towards the intermediate point 
@@ -68,17 +71,17 @@ public class MiningClaw : MonoBehaviour {
             else {
                 if (_currentTravelPointIdx == 0) {
                     // Start trigger and delay
-                    //RailEditor.InvokeStartObject(_currentRailIdx);
+                    RailEditor.InvokeStartObject(_currentRailIdx);
                     // Wait for the delay
-                    //StartCoroutine(PauseCartForDelay(RailEditor.startDelays[_currentRailIdx]));
+                    StartCoroutine(PauseCartForDelay(RailEditor.startDelays[_currentRailIdx]));
                     // Toggle direction
                     ToggleRailDirection();
                 }
                 else if (_currentTravelPointIdx == RailEditor.curves[_currentRailIdx].Points.Count - 1) {
                     // End trigger and delay
-                    //RailEditor.InvokeEndObjects(_currentRailIdx);
+                    RailEditor.InvokeEndObjects(_currentRailIdx);
                     // Wait for the delay
-                    //StartCoroutine(PauseCartForDelay(RailEditor.endDelays[_currentRailIdx]));
+                    StartCoroutine(PauseCartForDelay(RailEditor.endDelays[_currentRailIdx]));
                     // Toggle direction
                     ToggleRailDirection();
                 }
