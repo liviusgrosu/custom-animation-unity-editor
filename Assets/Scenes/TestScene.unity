@@ -3159,8 +3159,7 @@ MonoBehaviour:
   LerpDuration: 0.5
   MidPoint: {fileID: 1668640717}
   EndPoint: {fileID: 417334470}
-  TempTargetMarket: {fileID: 2511171431851333039, guid: 382d16312b1b52a44a3f1d8aea8c1aa7, type: 3}
-  speed: 0.1
+  speed: 0.5
 --- !u!1001 &1926329565
 PrefabInstance:
   m_ObjectHideFlags: 0
