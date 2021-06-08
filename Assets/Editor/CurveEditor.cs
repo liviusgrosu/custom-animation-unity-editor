@@ -16,29 +16,24 @@ public class CurveEditor : Editor
 
     // ---- Testing Variables ----
 
-    public override void OnInspectorGUI()
-    {
+    public override void OnInspectorGUI() {
         base.OnInspectorGUI();
 
-        if (GUILayout.Button("Clear Data"))
-        {
+        if (GUILayout.Button("Clear Data")) {
             ClearAll();
         }
 
-        for (int curveIdx = 0; curveIdx < curveCreator.curves.Count; curveIdx++)
-        {
+        for (int curveIdx = 0; curveIdx < curveCreator.curves.Count; curveIdx++) {
             string name = $"Rail - {curveIdx}";
             
-            if (!string.IsNullOrEmpty(curveCreator.railNames[curveIdx]))
-            {
+            if (!string.IsNullOrEmpty(curveCreator.railNames[curveIdx])) {
                 // Default name if it doesn't exist
                 name = curveCreator.railNames[curveIdx];
             }  
             
             // Foldout for each animation rail
             curveCreator.showAnimationRail[curveIdx] = EditorGUILayout.Foldout(curveCreator.showAnimationRail[curveIdx], name);
-            if (curveCreator.showAnimationRail[curveIdx])
-            {
+            if (curveCreator.showAnimationRail[curveIdx]) {
                 SerializedProperty railNames = serializedObject.FindProperty("railNames");
                 SerializedProperty animationCurves = serializedObject.FindProperty("animationCurves");
 
@@ -57,6 +52,10 @@ public class CurveEditor : Editor
 
                 EditorGUILayout.PropertyField(startTriggerObjs.GetArrayElementAtIndex(curveIdx), new GUIContent("First Station"), false);
                 EditorGUILayout.PropertyField(endTriggerObjs.GetArrayElementAtIndex(curveIdx), new GUIContent("Second Station"), false);
+                
+                if (GUILayout.Button("Remove Curve")) {
+                    DeleteCurve(curveIdx);
+                }
             }
         }
 
@@ -406,6 +405,20 @@ public class CurveEditor : Editor
         curveCreator.endTriggerObjs.RemoveAt(selectionInfo.curveHoverOver);
 
         selectionInfo.curveSelected = -1;
+    }
+
+    void DeleteCurve(int curveIdx) {
+        curveCreator.curves.RemoveAt(curveIdx);
+
+        curveCreator.railNames.RemoveAt(curveIdx);
+        curveCreator.animationCurves.RemoveAt(curveIdx);
+        curveCreator.showAnimationRail.RemoveAt(curveIdx);
+
+        curveCreator.startDelays.RemoveAt(curveIdx);
+        curveCreator.startTriggerObjs.RemoveAt(curveIdx);
+
+        curveCreator.endDelays.RemoveAt(curveIdx);
+        curveCreator.endTriggerObjs.RemoveAt(curveIdx);
     }
 
     void CreateNewPoint(Vector3 position)
