@@ -72,7 +72,9 @@ public class Processor : MonoBehaviour
     }
 
     public void MoveProcessedOre(float secondsToWait) {
-        StartCoroutine(MoveConveyorBelts(secondsToWait));
+        if (_stationState) {
+            StartCoroutine(MoveConveyorBelts(secondsToWait));
+        }
     }
 
     IEnumerator MoveConveyorBelts(float secondsToWait) {
