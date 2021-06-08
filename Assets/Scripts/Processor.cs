@@ -13,7 +13,7 @@ public class Processor : MonoBehaviour
     public Transform SpawnPoint;
     public GameObject ProcessedCoal, ProcessedGold, ProcessedSilver;
 
-    public List<GameObject> ConveyorBelts;
+    public List<ConveyorBelt> ConveyorBelts;
     private bool _stationState;
 
     public GameObject TempBlockingBarrier;
@@ -82,8 +82,8 @@ public class Processor : MonoBehaviour
     } 
 
     private void SetBeltsState(bool isStopped) {
-        foreach (GameObject belt in ConveyorBelts) {
-            belt.GetComponent<ConveyorBelt>().SetState(isStopped);
+        foreach (ConveyorBelt belt in ConveyorBelts) {
+            belt.SetState(isStopped);
         }
     }
 

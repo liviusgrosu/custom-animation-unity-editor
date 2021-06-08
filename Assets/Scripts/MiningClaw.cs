@@ -41,7 +41,7 @@ public class MiningClaw : MonoBehaviour {
     private Direction _direction;
 
     private void Start() {
-        SwitchRails("Mine", "Mine to Processor");
+        SwitchRails("Processor", "Processor to Bank");
     }
 
     private void Update() {
@@ -113,6 +113,7 @@ public class MiningClaw : MonoBehaviour {
                                     RailEditor.curves[_currentRailIdx].BackwardDirectionIncrement);
 
         // Assign direction
+        // TODO: Check if triggers even exist
         if (stationName == RailEditor.startTriggerObjs[_currentRailIdx].GetPersistentTarget(0).name) {
             _direction.currentDirection = _direction.forwardIncrement;
         }
