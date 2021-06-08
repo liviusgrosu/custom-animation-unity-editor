@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 830469173256036284}
   - component: {fileID: 830469173256036275}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -110,6 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
+  _stopped: 0
 --- !u!1 &524390636947543697
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,7 +164,7 @@ GameObject:
   - component: {fileID: 5106873201029850194}
   - component: {fileID: 830469173729440046}
   m_Layer: 0
-  m_Name: Circle.006
+  m_Name: Axel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -261,7 +262,7 @@ GameObject:
   - component: {fileID: 7733694599709231363}
   - component: {fileID: 830469173936096726}
   m_Layer: 0
-  m_Name: Circle.003
+  m_Name: Axel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -359,7 +360,7 @@ GameObject:
   - component: {fileID: 7868961351858343534}
   - component: {fileID: 830469174442909012}
   m_Layer: 0
-  m_Name: Circle.001
+  m_Name: Axel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -457,7 +458,7 @@ GameObject:
   - component: {fileID: 9128719218325411007}
   - component: {fileID: 830469174674490267}
   m_Layer: 0
-  m_Name: Circle
+  m_Name: Axel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -555,7 +556,7 @@ GameObject:
   - component: {fileID: 1074440074190459710}
   - component: {fileID: 830469173708339967}
   m_Layer: 0
-  m_Name: Circle.007
+  m_Name: Axel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -653,7 +654,7 @@ GameObject:
   - component: {fileID: 5312896464609437392}
   - component: {fileID: 830469174768368047}
   m_Layer: 0
-  m_Name: Circle.004
+  m_Name: Axel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -751,7 +752,7 @@ GameObject:
   - component: {fileID: 4093717350526516313}
   - component: {fileID: 830469174764719567}
   m_Layer: 0
-  m_Name: Circle.005
+  m_Name: Axel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -849,7 +850,7 @@ GameObject:
   - component: {fileID: 432345747733429175}
   - component: {fileID: 830469173330021127}
   m_Layer: 0
-  m_Name: Circle.008
+  m_Name: Axel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -947,7 +948,7 @@ GameObject:
   - component: {fileID: 997334454707565115}
   - component: {fileID: 830469172652823431}
   m_Layer: 0
-  m_Name: Circle.002
+  m_Name: Axel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
