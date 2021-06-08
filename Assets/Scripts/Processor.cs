@@ -42,6 +42,8 @@ public class Processor : MonoBehaviour
             // Toggle the station and blocking barrier
             _stationState = !_stationState;
             TempBlockingBarrier.SetActive(!TempBlockingBarrier.activeSelf);
+            TempBlockingBarrier.GetComponent<ProcessorBarrierMovement>().Reset();
+            CancelInvoke();
         }
     }
 
