@@ -18,21 +18,26 @@ public class Processor : MonoBehaviour
 
     public GameObject TempBlockingBarrier;
 
+    public int MaxOreAmount;
+    private int _currentOreAmount;
+    public ProcessorGauge Gauge;
+
     private void Awake() {
         _queuedOres = new Queue<string>();
         InvokeRepeating("SpawnProcessedOre", 0.5f, 1f);
     } 
     private void OnTriggerEnter(Collider obj) {
-        if (obj.tag == "Ore") {
-            if(obj.name.Contains("Coal")) {
-                _queuedOres.Enqueue("Coal");
+        if(_currentOreAmount < MaxOreAmount) {
+            if (obj.tag == "Ore") {
+                if(obj.name.Contains("Silver")) {
+                    _queuedOres.Enqueue("Silver");
+                }
+                else if(obj.name.Contains("Gold")) {
+                    _queuedOres.Enqueue("Gold");
+                }
             }
-            else if(obj.name.Contains("Silver")) {
-                _queuedOres.Enqueue("Silver");
-            }
-            else if(obj.name.Contains("Gold")) {
-                _queuedOres.Enqueue("Gold");                
-            }
+            _currentOreAmount++;
+            UpdateGauge();
         }
         Destroy(obj.gameObject);
     }
@@ -55,9 +60,6 @@ public class Processor : MonoBehaviour
         string nextOreName = _queuedOres.Dequeue();
         GameObject nextOreObj;
         switch(nextOreName) {
-            case "Coal":
-                nextOreObj = ProcessedCoal;
-                break;
             case "Silver":
                 nextOreObj = ProcessedSilver;
                 break;
@@ -67,7 +69,8 @@ public class Processor : MonoBehaviour
             default:
                 return;
         }
-
+        _currentOreAmount--;
+        UpdateGauge();
         Instantiate(nextOreObj, SpawnPoint.position, nextOreObj.transform.rotation);
     }
 
@@ -91,5 +94,7 @@ public class Processor : MonoBehaviour
         }
     }
 
-    // TODO: Update some sort of text 
+    private void UpdateGauge() {
+        Gauge.UpdateGaugeLevel(_currentOreAmount / (float)MaxOreAmount);
+    }
 }
