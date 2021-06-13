@@ -41,7 +41,7 @@ public class MiningClaw : MonoBehaviour {
     private Direction _direction;
 
     private void Start() {
-        SwitchRails("Processor", "Processor to Bank");
+        SwitchRails("Mine", "Mine to Crusher");
     }
 
     private void Update() {

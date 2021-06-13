@@ -11,7 +11,7 @@ public class Processor : MonoBehaviour
     private bool _moveConveyorBelt;
 
     public Transform SpawnPoint;
-    public GameObject ProcessedCoal, ProcessedGold, ProcessedSilver;
+    public GameObject ProcessedGold, ProcessedSilver;
 
     public List<ConveyorBelt> ConveyorBelts;
     private bool _stationState;
@@ -25,6 +25,9 @@ public class Processor : MonoBehaviour
     private void Awake() {
         _queuedOres = new Queue<string>();
         InvokeRepeating("SpawnProcessedOre", 0.5f, 1f);
+
+        // TEMP
+        // _stationState = true;
     } 
     private void OnTriggerEnter(Collider obj) {
         if(_currentOreAmount < MaxOreAmount) {
@@ -43,17 +46,17 @@ public class Processor : MonoBehaviour
     }
 
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            // Toggle the station and blocking barrier
-            _stationState = !_stationState;
-            TempBlockingBarrier.SetActive(!TempBlockingBarrier.activeSelf);
-            TempBlockingBarrier.GetComponent<ProcessorBarrierMovement>().Reset();
-            CancelInvoke();
-        }
+        // if (Input.GetKeyDown(KeyCode.Space)) {
+        //     // Toggle the station and blocking barrier
+        //     _stationState = !_stationState;
+        //     TempBlockingBarrier.SetActive(!TempBlockingBarrier.activeSelf);
+        //     TempBlockingBarrier.GetComponent<ProcessorBarrierMovement>().Reset();
+        //     CancelInvoke();
+        // }
     }
 
     private void SpawnProcessedOre() {
-        if (_queuedOres.Count == 0 && !_stationState) {
+        if (_queuedOres.Count == 0 /* && !_stationState */) {
             return;
         }
 
@@ -75,9 +78,11 @@ public class Processor : MonoBehaviour
     }
 
     public void MoveProcessedOre(float secondsToWait) {
-        if (_stationState) {
-            StartCoroutine(MoveConveyorBelts(secondsToWait));
-        }
+        // if (!_stationState) {
+        //     return;
+        // }
+        
+        StartCoroutine(MoveConveyorBelts(secondsToWait));
     }
 
     IEnumerator MoveConveyorBelts(float secondsToWait) {

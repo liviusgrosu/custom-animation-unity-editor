@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7975995031769049796
+--- !u!1 &4256736926498746595
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,47 +8,48 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7447085923314160470}
-  - component: {fileID: 3731148817693143394}
-  - component: {fileID: 7469930099664716569}
-  - component: {fileID: 3020495783224093783}
-  - component: {fileID: 8004284496594875367}
+  - component: {fileID: 4256736926498746594}
+  - component: {fileID: 8787879674879839650}
+  - component: {fileID: 3609154762434921478}
+  - component: {fileID: 4462071721849882389}
+  - component: {fileID: 568178721153417351}
+  - component: {fileID: 4256736926498746597}
   m_Layer: 0
   m_Name: Silver Ore
   m_TagString: Ore
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 4162164826716764455, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7447085923314160470
+--- !u!4 &4256736926498746594
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7975995031769049796}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_GameObject: {fileID: 4256736926498746595}
+  m_LocalRotation: {x: -0, y: 0.8645106, z: -0, w: 0.50261456}
+  m_LocalPosition: {x: -17.29, y: 2.876, z: -0.94}
   m_LocalScale: {x: 0.40586, y: 0.40586, z: 0.40586}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &3731148817693143394
+  m_LocalEulerAnglesHint: {x: 0, y: 119.654, z: 0}
+--- !u!33 &8787879674879839650
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7975995031769049796}
-  m_Mesh: {fileID: -5495902117074765545, guid: 045ac8611dd64f844be9ee73776889b2, type: 3}
---- !u!23 &7469930099664716569
+  m_GameObject: {fileID: 4256736926498746595}
+  m_Mesh: {fileID: 0}
+--- !u!23 &3609154762434921478
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7975995031769049796}
+  m_GameObject: {fileID: 4256736926498746595}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -83,13 +84,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!54 &3020495783224093783
+--- !u!54 &4462071721849882389
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7975995031769049796}
+  m_GameObject: {fileID: 4256736926498746595}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -99,17 +100,34 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!64 &8004284496594875367
+--- !u!64 &568178721153417351
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7975995031769049796}
+  m_GameObject: {fileID: 4256736926498746595}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: -5495902117074765545, guid: 045ac8611dd64f844be9ee73776889b2, type: 3}
+  m_Mesh: {fileID: 0}
+--- !u!114 &4256736926498746597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4256736926498746595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a94585cef56b9874fa45aa89fef6884b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StateMeshes:
+  - {fileID: 715807380320781672, guid: ad0cca206cfc6994a9820e5e9988d038, type: 3}
+  - {fileID: 9032210285423436136, guid: 81927d97e0845f342860c9931e0fae44, type: 3}
+  - {fileID: 8785988932930321290, guid: 047f8cad7c8dfe14eadb5b74a3417510, type: 3}
+  IFrameTime: 0.5
