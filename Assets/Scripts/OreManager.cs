@@ -10,7 +10,7 @@ public class OreManager : MonoBehaviour
 
     private int _goldAmount = 0, _silverAmount = 0; 
     private int __coalAmount = 4;
-    private int _coalAmount 
+    public int CoalAmount
     {
         get { return __coalAmount; } 
         set { __coalAmount = Mathf.Clamp(value, 0, MaxCoalAmount); } 
@@ -23,13 +23,13 @@ public class OreManager : MonoBehaviour
 
     private void Update() {
 
-        if (_coalAmount <= 0 && !_isLoadingCoal || _coalAmount >= 10 && _isLoadingCoal) {
+        if (CoalAmount <= 0 && !_isLoadingCoal || CoalAmount >= 10 && _isLoadingCoal) {
             _isLoadingCoal = !_isLoadingCoal;
         } 
 
         GoldAmountText.text = $"Gold: {_goldAmount.ToString()}";
         SilverAmountText.text = $"Silver: {_silverAmount.ToString()}";
-        CoalAmountText.text = $"Coal: {_coalAmount.ToString()}/{MaxCoalAmount}";
+        CoalAmountText.text = $"Coal: {CoalAmount.ToString()}/{MaxCoalAmount}";
     }
 
     public void IncrementOre(string oreName) {
@@ -41,7 +41,7 @@ public class OreManager : MonoBehaviour
                 _silverAmount++;
                 break;
             case "Coal":
-                _coalAmount++;
+                CoalAmount++;
                 break;
         }
     }
@@ -49,7 +49,7 @@ public class OreManager : MonoBehaviour
     private void DrainCoalAmount() {
         if (!_isLoadingCoal) {
             // Drain the furnace over time
-            _coalAmount--;
+            CoalAmount--;
         }
     }
 }

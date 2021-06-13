@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoalDispenser : MonoBehaviour, IStation {
+public class CoalDispenser : MonoBehaviour, IDispensable {
     private Animator _animator;
     private void Awake() {
         _animator = GetComponent<Animator>();

@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections;
 
-public interface IStation
-{
+public interface IDispensable {
     void DispenseOre(float secondsToWait);
 }

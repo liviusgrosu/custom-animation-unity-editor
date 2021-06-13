@@ -6,10 +6,6 @@ public class Processor : MonoBehaviour
 {
     // TODO: add queue here of processed ore
     public Queue<string> _queuedOres;
-    
-    // Happens when power is on and claw is present
-    private bool _moveConveyorBelt;
-
     public Transform SpawnPoint;
     public GameObject ProcessedGold, ProcessedSilver;
 
@@ -25,9 +21,6 @@ public class Processor : MonoBehaviour
     private void Awake() {
         _queuedOres = new Queue<string>();
         InvokeRepeating("SpawnProcessedOre", 0.5f, 1f);
-
-        // TEMP
-        // _stationState = true;
     } 
     private void OnTriggerEnter(Collider obj) {
         if(_currentOreAmount < MaxOreAmount) {
@@ -45,18 +38,8 @@ public class Processor : MonoBehaviour
         Destroy(obj.gameObject);
     }
 
-    private void Update() {
-        // if (Input.GetKeyDown(KeyCode.Space)) {
-        //     // Toggle the station and blocking barrier
-        //     _stationState = !_stationState;
-        //     TempBlockingBarrier.SetActive(!TempBlockingBarrier.activeSelf);
-        //     TempBlockingBarrier.GetComponent<ProcessorBarrierMovement>().Reset();
-        //     CancelInvoke();
-        // }
-    }
-
     private void SpawnProcessedOre() {
-        if (_queuedOres.Count == 0 /* && !_stationState */) {
+        if (_queuedOres.Count == 0) {
             return;
         }
 
@@ -77,11 +60,7 @@ public class Processor : MonoBehaviour
         Instantiate(nextOreObj, SpawnPoint.position, nextOreObj.transform.rotation);
     }
 
-    public void MoveProcessedOre(float secondsToWait) {
-        // if (!_stationState) {
-        //     return;
-        // }
-        
+    public void MoveProcessedOre(float secondsToWait) {        
         StartCoroutine(MoveConveyorBelts(secondsToWait));
     }
 
