@@ -1,23 +1,33 @@
-﻿using System.Collections;
+﻿using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Furnance : MonoBehaviour
 {
     public OreManager OreManager;
 
-    private List<ConveyorBelt> _conveyorBelts;
+    private List<IToggleMachine> _toggableMachine;
 
     private bool _state;
 
 
     private void Awake() {
-        _conveyorBelts = new List<ConveyorBelt>();
+
     }
 
     private void Start() {
-        foreach(ConveyorBelt conveyorBelt in FindObjectsOfType(typeof(ConveyorBelt))) {
-            _conveyorBelts.Add(conveyorBelt);
+
+        _toggableMachine= new List<IToggleMachine>();
+        GameObject[] rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
+        foreach( var rootGameObject in rootGameObjects )
+        {
+            IToggleMachine[] childrenInterfaces = rootGameObject.GetComponentsInChildren<IToggleMachine>();
+            foreach( var childInterface in childrenInterfaces )
+            {
+                _toggableMachine.Add(childInterface);
+            }
         }
 
         _state = OreManager.CoalAmount > 0;
@@ -27,15 +37,15 @@ public class Furnance : MonoBehaviour
         if (_state && OreManager.CoalAmount <= 0) {
             // Turn off
             _state = false;
-            foreach (ConveyorBelt conveyorBelt in _conveyorBelts) {
-                conveyorBelt.SetPowerState(_state);
+            foreach (IToggleMachine machine in _toggableMachine) {
+                machine.SetPowerState(_state);
             }
         }
         else if(!_state && OreManager.CoalAmount > 0) {
             // Turn on
             _state = false;
-            foreach (ConveyorBelt conveyorBelt in _conveyorBelts) {
-                conveyorBelt.SetPowerState(_state);
+            foreach (IToggleMachine machine in _toggableMachine) {
+                machine.SetPowerState(_state);
             }
         }
     }    

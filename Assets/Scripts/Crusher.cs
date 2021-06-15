@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Crusher : MonoBehaviour {
+public class Crusher : MonoBehaviour, IToggleMachine {
     private Animator _animator;
     private float _animationSpeed;
 
@@ -23,5 +23,9 @@ public class Crusher : MonoBehaviour {
 
     public void ToggleState(bool state) {
         _animator.speed = state ? _animationSpeed : 0f;
+    }
+
+    public void SetPowerState(bool state) {
+        ToggleState(state);
     }
 }

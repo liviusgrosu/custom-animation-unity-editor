@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 
 
-public class ConveyorBelt : MonoBehaviour
+public class ConveyorBelt : MonoBehaviour, IToggleMachine
 {
     public float speed;
     public bool _movementTurnedOff, _powerTurnedOff;

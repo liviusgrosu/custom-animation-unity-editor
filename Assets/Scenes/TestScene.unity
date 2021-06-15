@@ -152,6 +152,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &18598448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18598445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3e11222ede1a694c8e674728a667ebe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &45866236
 GameObject:
   m_ObjectHideFlags: 0
@@ -2085,10 +2097,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1220828788}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3abbcfc10ef0c124f829a8af30179043, type: 3}
+  m_Script: {fileID: 11500000, guid: 9207ccca892874d4f86d6d9cb3509e92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OreManager: {fileID: 0}
+  OreManager: {fileID: 1423644465}
 --- !u!1 &1231545182
 GameObject:
   m_ObjectHideFlags: 0
@@ -2483,6 +2495,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 830469173256036275, guid: 1fac3b9890b0b9b489836876974aaf34, type: 3}
       propertyPath: _stopped
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 830469173256036275, guid: 1fac3b9890b0b9b489836876974aaf34, type: 3}
+      propertyPath: _movementTurnedOff
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 868299919368965163, guid: 1fac3b9890b0b9b489836876974aaf34, type: 3}
