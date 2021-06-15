@@ -74,7 +74,7 @@ public class Processor : MonoBehaviour
 
     private void SetBeltsState(bool isStopped) {
         foreach (ConveyorBelt belt in ConveyorBelts) {
-            belt.SetState(isStopped);
+            belt.SetMovementState(isStopped);
         }
     }
 
