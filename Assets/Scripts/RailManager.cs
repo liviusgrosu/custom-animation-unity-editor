@@ -17,15 +17,15 @@ public class RailManager : MonoBehaviour
             DeselectStations();
             _selectedStation = station;
             // Change mining claw to new station
-            MiningClaw.SwitchRails(station.name, station.GetComponent<Station>().RailAssociated);
+            MiningClaw.SwitchRails(station.name);
         }
     }
 
     private void DeselectStations() {
         // Reset each stations outline back to default
-        GameObject[] stations = GameObject.FindGameObjectsWithTag("Station");
-        foreach(GameObject station in stations) {
-            station.GetComponent<MouseHoverOver>().ResetOutline();
-        }
+        // GameObject[] stations = GameObject.FindGameObjectsWithTag("Station");
+        // foreach(GameObject station in stations) {
+        //     //station.GetComponent<MouseHoverOver>().ResetOutline();
+        // }
     }
 }

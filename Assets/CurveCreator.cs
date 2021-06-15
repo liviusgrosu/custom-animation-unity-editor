@@ -13,6 +13,10 @@ public class CurveCreator : MonoBehaviour {
     [HideInInspector]
     public List<AnimationCurve> animationCurves = new List<AnimationCurve>();
     [HideInInspector]
+    public List<string> startStationNames = new List<string>();
+    [HideInInspector]
+    public List<string> endStationNames = new List<string>();
+    [HideInInspector]
     public List<UnityEvent> startTriggerObjs  = new List<UnityEvent>();
     [HideInInspector]
     public List<UnityEvent> endTriggerObjs  = new List<UnityEvent>();
@@ -34,6 +38,17 @@ public class CurveCreator : MonoBehaviour {
     }
 
     public int GetRailIdx(string railName) {
-        return railNames.FindIndex(a => a.Contains(railName));
+        // Check to see if it belongs in any of the terminal stations
+        int startStationIdx = startStationNames.IndexOf(railName);
+        int endStationIdx = endStationNames.IndexOf(railName);
+
+        if (startStationIdx != -1) {
+            return startStationIdx;
+        }
+        if (endStationIdx != -1) {
+            return endStationIdx;
+        }
+        return -1;
+        //return railNames.FindIndex(a => a.Contains(railName));
     }
 }

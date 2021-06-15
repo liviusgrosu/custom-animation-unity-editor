@@ -41,7 +41,7 @@ public class MiningClaw : MonoBehaviour {
     private Direction _direction;
 
     private void Start() {
-        SwitchRails("Mine", "Mine to Crusher");
+        SwitchRails("Furnace");
     }
 
     private void Update() {
@@ -101,10 +101,9 @@ public class MiningClaw : MonoBehaviour {
         }
     }
 
-    public void SwitchRails(string stationName, string railName) {
+    public void SwitchRails(string stationName) {
         // Store the rails points
-        _currentRailName = railName;
-        _currentRailIdx = RailEditor.GetRailIdx(_currentRailName);
+        _currentRailIdx = RailEditor.GetRailIdx(stationName);
         _currentIntermediatePointIdx = RailEditor.curves[_currentRailIdx].IntermediatePointIdx;
         _currentIntermediatePointPos = RailEditor.curves[_currentRailIdx].Points[_currentIntermediatePointIdx];
 
@@ -114,10 +113,10 @@ public class MiningClaw : MonoBehaviour {
 
         // Assign direction
         // TODO: Check if triggers even exist
-        if (stationName == RailEditor.startTriggerObjs[_currentRailIdx].GetPersistentTarget(0).name) {
+        if (stationName == RailEditor.startStationNames[_currentRailIdx]) {
             _direction.currentDirection = _direction.forwardIncrement;
         }
-        else if (stationName == RailEditor.endTriggerObjs[_currentRailIdx].GetPersistentTarget(0).name) {
+        else if (stationName == RailEditor.endStationNames[_currentRailIdx]) {
             _direction.currentDirection = _direction.backwardIncrement;
         }
         _currentCartMode = Mode.traveling;

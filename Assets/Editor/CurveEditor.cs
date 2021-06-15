@@ -39,9 +39,11 @@ public class CurveEditor : Editor
 
                 SerializedProperty endDelays = serializedObject.FindProperty("endDelays");
                 SerializedProperty startDelays = serializedObject.FindProperty("startDelays");
+                SerializedProperty startStationNames = serializedObject.FindProperty("startStationNames");
 
                 SerializedProperty startTriggerObjs = serializedObject.FindProperty("startTriggerObjs");
                 SerializedProperty endTriggerObjs = serializedObject.FindProperty("endTriggerObjs");
+                SerializedProperty endStationNames = serializedObject.FindProperty("endStationNames");
 
 
                 EditorGUILayout.PropertyField(railNames.GetArrayElementAtIndex(curveIdx), new GUIContent("Name"), false);
@@ -49,9 +51,11 @@ public class CurveEditor : Editor
 
                 EditorGUILayout.PropertyField(startDelays.GetArrayElementAtIndex(curveIdx), new GUIContent("Start Delay"), false);
                 EditorGUILayout.PropertyField(endDelays.GetArrayElementAtIndex(curveIdx), new GUIContent("End Delay"), false);
-
-                EditorGUILayout.PropertyField(startTriggerObjs.GetArrayElementAtIndex(curveIdx), new GUIContent("First Station"), false);
-                EditorGUILayout.PropertyField(endTriggerObjs.GetArrayElementAtIndex(curveIdx), new GUIContent("Second Station"), false);
+                
+                EditorGUILayout.PropertyField(startStationNames.GetArrayElementAtIndex(curveIdx), new GUIContent("Start Station Name"), false);
+                EditorGUILayout.PropertyField(startTriggerObjs.GetArrayElementAtIndex(curveIdx), new GUIContent("Start Station"), false);
+                EditorGUILayout.PropertyField(endStationNames.GetArrayElementAtIndex(curveIdx), new GUIContent("End Station Name"), false);
+                EditorGUILayout.PropertyField(endTriggerObjs.GetArrayElementAtIndex(curveIdx), new GUIContent("End Station"), false);
                 
                 if (GUILayout.Button("Remove Curve")) {
                     DeleteCurve(curveIdx);
@@ -239,6 +243,12 @@ public class CurveEditor : Editor
         EditorGUI.BeginChangeCheck();
 
         for (int curveIdx = 0; curveIdx < curveCreator.curves.Count; curveIdx++) {
+
+            int middlePointIdx = curveCreator.curves[curveIdx].Points.Count / 2;
+            Vector3 averagePos = curveCreator.curves[curveIdx].Points[middlePointIdx];
+            // Display the point type about the point
+            DrawLabel(averagePos + new Vector3(0, 5f, 0), curveCreator.railNames[curveIdx], Color.cyan);
+
             for (int pointIdx = 0; pointIdx < curveCreator.curves[curveIdx].Points.Count; pointIdx++) {
                 bool hoverCurve = selectionInfo.curveHoverOver == curveIdx;
                 bool hoverPoint = selectionInfo.pointHoverOver == pointIdx;
@@ -251,13 +261,13 @@ public class CurveEditor : Editor
 
                 string pointTypeLabel = "";
                 if(pointIdx == curveCreator.curves[curveIdx].FirstStationIdx) {
-                    pointTypeLabel += " First ";
+                    pointTypeLabel += " Start ";
                 }
                 if(pointIdx == curveCreator.curves[curveIdx].IntermediatePointIdx) {
                     pointTypeLabel += " Intermediate ";
                 }
                 if(pointIdx == curveCreator.curves[curveIdx].SecondStationIdx) {
-                    pointTypeLabel += " Second ";
+                    pointTypeLabel += " End ";
                 }
 
                 // Display the point type about the point
@@ -270,9 +280,9 @@ public class CurveEditor : Editor
                             curveCreator.curves[curveIdx].Points[pointIdx] = newPointPosition;
                         }
                         // Show buttons that selects the point type
-                        DrawPointOptionsButton("First Station", currentPointPos + new Vector3(-1f, -1f, 0), pointIdx, Color.green);
+                        DrawPointOptionsButton("Start Station", currentPointPos + new Vector3(-1f, -1f, 0), pointIdx, Color.green);
                         DrawPointOptionsButton("Intermediate", currentPointPos + new Vector3(0f, -1f, 0), pointIdx, Color.yellow);
-                        DrawPointOptionsButton("Second Station", currentPointPos + new Vector3(1f, -1f, 0), pointIdx, Color.red);
+                        DrawPointOptionsButton("End Station", currentPointPos + new Vector3(1f, -1f, 0), pointIdx, Color.red);
 
                         if (curveCreator.curves[selectionInfo.curveSelected].FirstStationIdx != -1 &&
                             curveCreator.curves[selectionInfo.curveSelected].SecondStationIdx != -1) {
@@ -341,13 +351,13 @@ public class CurveEditor : Editor
         Handles.color = colour;
         if (Handles.Button(position, Quaternion.identity, size, size, Handles.CubeHandleCap)) {
             switch(pointType) {
-                case "First Station":
+                case "Start Station":
                     curveCreator.curves[selectionInfo.curveSelected].FirstStationIdx = pointIdx;
                     break;
                 case "Intermediate":
                     curveCreator.curves[selectionInfo.curveSelected].IntermediatePointIdx = pointIdx;
                     break;
-                case "Second Station":
+                case "End Station":
                     curveCreator.curves[selectionInfo.curveSelected].SecondStationIdx = pointIdx;
                     break;
             }
@@ -376,6 +386,9 @@ public class CurveEditor : Editor
         curveCreator.animationCurves.Add(new AnimationCurve());
         curveCreator.showAnimationRail.Add(false);
 
+        curveCreator.startStationNames.Add("");
+        curveCreator.endStationNames.Add("");
+
         curveCreator.startDelays.Add(0f);
         curveCreator.startTriggerObjs.Add(new UnityEvent());
 
@@ -398,6 +411,9 @@ public class CurveEditor : Editor
         curveCreator.animationCurves.RemoveAt(selectionInfo.curveHoverOver);
         curveCreator.showAnimationRail.RemoveAt(selectionInfo.curveHoverOver);
 
+        curveCreator.startStationNames.RemoveAt(selectionInfo.curveHoverOver);
+        curveCreator.endStationNames.RemoveAt(selectionInfo.curveHoverOver);
+
         curveCreator.startDelays.RemoveAt(selectionInfo.curveHoverOver);
         curveCreator.startTriggerObjs.RemoveAt(selectionInfo.curveHoverOver);
 
@@ -413,6 +429,9 @@ public class CurveEditor : Editor
         curveCreator.railNames.RemoveAt(curveIdx);
         curveCreator.animationCurves.RemoveAt(curveIdx);
         curveCreator.showAnimationRail.RemoveAt(curveIdx);
+
+        curveCreator.startStationNames.RemoveAt(curveIdx);
+        curveCreator.endStationNames.RemoveAt(curveIdx);
 
         curveCreator.startDelays.RemoveAt(curveIdx);
         curveCreator.startTriggerObjs.RemoveAt(curveIdx);

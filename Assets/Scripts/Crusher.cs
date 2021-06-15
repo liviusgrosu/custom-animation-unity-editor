@@ -14,13 +14,6 @@ public class Crusher : MonoBehaviour, IToggleMachine {
         _animationSpeed = _animator.speed;
     }
 
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            _tempState = !_tempState;
-            ToggleState(_tempState);
-        }
-    }
-
     public void ToggleState(bool state) {
         _animator.speed = state ? _animationSpeed : 0f;
     }
