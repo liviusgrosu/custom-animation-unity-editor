@@ -27,14 +27,12 @@ public class CurveEditor : Editor
             string name = $"Rail - {curveIdx}";
             
             if (!string.IsNullOrEmpty(curveCreator.railNames[curveIdx])) {
-                // Default name if it doesn't exist
                 name = curveCreator.railNames[curveIdx];
-            }  
+            }
             
             // Foldout for each animation rail
             curveCreator.showAnimationRail[curveIdx] = EditorGUILayout.Foldout(curveCreator.showAnimationRail[curveIdx], name);
             if (curveCreator.showAnimationRail[curveIdx]) {
-                SerializedProperty railNames = serializedObject.FindProperty("railNames");
                 SerializedProperty animationCurves = serializedObject.FindProperty("animationCurves");
 
                 SerializedProperty endDelays = serializedObject.FindProperty("endDelays");
@@ -44,9 +42,7 @@ public class CurveEditor : Editor
                 SerializedProperty startTriggerObjs = serializedObject.FindProperty("startTriggerObjs");
                 SerializedProperty endTriggerObjs = serializedObject.FindProperty("endTriggerObjs");
                 SerializedProperty endStationNames = serializedObject.FindProperty("endStationNames");
-
-
-                EditorGUILayout.PropertyField(railNames.GetArrayElementAtIndex(curveIdx), new GUIContent("Name"), false);
+                
                 EditorGUILayout.PropertyField(animationCurves.GetArrayElementAtIndex(curveIdx), new GUIContent("Curve"), false);
 
                 EditorGUILayout.PropertyField(startDelays.GetArrayElementAtIndex(curveIdx), new GUIContent("Start Delay"), false);

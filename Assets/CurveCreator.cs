@@ -49,6 +49,5 @@ public class CurveCreator : MonoBehaviour {
             return endStationIdx;
         }
         return -1;
-        //return railNames.FindIndex(a => a.Contains(railName));
     }
 }
