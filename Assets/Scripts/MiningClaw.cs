@@ -41,7 +41,7 @@ public class MiningClaw : MonoBehaviour {
     private Direction _direction;
 
     private void Start() {
-        SwitchRails("Furnace");
+        SwitchRails("Coal Pipe");
     }
 
     private void Update() {
