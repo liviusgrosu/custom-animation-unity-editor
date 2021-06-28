@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Furnance : MonoBehaviour
+public class Furnace : MonoBehaviour
 {
     public OreManager OreManager;
 

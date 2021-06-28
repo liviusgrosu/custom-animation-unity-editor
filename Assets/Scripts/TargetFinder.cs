@@ -24,6 +24,7 @@ public class TargetFinder : MonoBehaviour
 
     public float craneMovementSpeed;
     private Transform _oreGrabbedOnto;
+    public Animator Animator;
 
     void Awake() {
         _queuedTargets = new List<Transform>();
@@ -46,12 +47,15 @@ public class TargetFinder : MonoBehaviour
                     _oreGrabbedOnto = _currentTarget;
                     _oreGrabbedOnto.parent = IKLeg.transform;
                     _oreGrabbedOnto.GetComponent<Rigidbody>().isKinematic = true;
+                    _oreGrabbedOnto.transform.position = _IKLegScript.transform.position;
+                    Animator.SetTrigger("Close");
                 }
                 else if (_currentTarget == EndPoint) {
                     // Drop off the ore
                     _oreGrabbedOnto.GetComponent<Rigidbody>().isKinematic = false;
                     _oreGrabbedOnto.parent = null;
                     _oreGrabbedOnto = null;
+                    Animator.SetTrigger("Open");
                 }
                 _calculateMovement = false;
                 return;

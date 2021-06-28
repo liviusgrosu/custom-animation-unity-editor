@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CoalDispenser : MonoBehaviour, IDispensable {
-    private Animator _animator;
+    private BoxCollider HatchCollider;
     private void Awake() {
-        _animator = GetComponent<Animator>();
+        HatchCollider = GetComponent<BoxCollider>();
     }
     public void DispenseOre(float secondsToWait) {
         StartCoroutine(HoldClawOpen(secondsToWait));
@@ -13,8 +13,8 @@ public class CoalDispenser : MonoBehaviour, IDispensable {
 
     IEnumerator HoldClawOpen(float secondsToWait) {
         // Open and close the claw
-        _animator.SetTrigger("Open Hatch");
+        HatchCollider.enabled = false;
         yield return new WaitForSeconds(secondsToWait);
-        _animator.SetTrigger("Close Hatch");
+        HatchCollider.enabled = true;
     }
 }

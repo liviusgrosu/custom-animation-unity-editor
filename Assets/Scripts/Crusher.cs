@@ -21,4 +21,10 @@ public class Crusher : MonoBehaviour, IToggleMachine {
     public void SetPowerState(bool state) {
         ToggleState(state);
     }
+
+    private void OnTriggerEnter(Collider colliderObj) {
+        if (colliderObj.tag == "Ore") {
+            colliderObj.GetComponent<OrePhysicalState>().CrushOre();
+        }
+    }
 }

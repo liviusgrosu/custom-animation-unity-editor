@@ -12,8 +12,6 @@ public class Processor : MonoBehaviour
     public List<ConveyorBelt> ConveyorBelts;
     private bool _stationState;
 
-    public GameObject TempBlockingBarrier;
-
     public int MaxOreAmount;
     private int _currentOreAmount;
     public ProcessorGauge Gauge;
